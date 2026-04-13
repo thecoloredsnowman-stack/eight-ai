@@ -1,0 +1,24 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "website",
+  "compatibility_date": "2026-04-12",
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "."
+  },
+  "routes": [
+    {
+      "pattern": "witheightai.com/*",
+      "zone_name": "witheightai.com"
+    },
+    {
+      "pattern": "www.witheightai.com/*",
+      "zone_name": "witheightai.com"
+    }
+  ],
+  "compatibility_flags": [
+    "nodejs_compat"
+  ]
+}

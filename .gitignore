@@ -1,0 +1,29 @@
+# Secrets
+.env
+.env.local
+.env.production
+.env.development
+
+# Cloudflare / Wrangler
+.wrangler/
+website/.wrangler/
+
+# Dependencies
+node_modules/
+
+# Meta progress tracker (contains personal IDs)
+META_WHATSAPP_PROGRESS.md
+
+# Test scripts with personal data
+webhook-test/send-test.js
+
+# Internal docs
+eight-ai-project.md
+clinic app/eight-ai-master.md
+clinic app/eight-ai-app.md
+oneshot final clinic app/eight-ai-master.md
+oneshot final clinic app/klinik-ai-features.md
+
+# OS
+.DS_Store
+Thumbs.db

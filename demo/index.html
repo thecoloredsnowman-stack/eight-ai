@@ -1,0 +1,1886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Eight Ai — Klinik Cahaya</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#EFF1F1;--surface:#FFFFFF;--surface-alt:#F9FAFB;
+  --border:#E8E8E8;--border-light:#F0F0F0;
+  --text:#1A1A1A;--text-2:#3D3D3D;--text-muted:#5A5A5A;--text-faint:#9CA3AF;
+  --brand:#1A1A1A;--indigo:#3D3A7A;--indigo-soft:#EEF0FA;--indigo-line:#DDE0F2;
+  --green:#2D7D46;--green-bg:#E6F4EA;
+  --amber:#D97706;--amber-bg:#FFF8E6;
+  --red:#E53E3E;--red-bg:#FFF0F0;
+  --blue:#1565C0;--blue-bg:#E8F4FD;
+  --violet:#7C3AED;--violet-bg:#F5F0FF;
+  --teal:#0F766E;--teal-bg:#E6F7F5;
+  --card-amber:#C8912A;--card-teal:#2D4A46;--card-indigo:#3D3A7A;
+  --font:'DM Sans',system-ui,-apple-system,sans-serif;
+  --xs:11px;--sm:12px;--base:13px;--md:14px;--lg:16px;--xl:22px;--xxl:28px;
+  --r-sm:4px;--r-md:8px;--r-lg:12px;--r-xl:16px;--r-full:9999px;
+  --shadow-1:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  --shadow-2:0 4px 12px rgba(0,0,0,.08);
+  --shadow-3:0 12px 40px rgba(0,0,0,.18);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:var(--base);-webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,textarea,select{font-family:inherit;font-size:inherit;color:inherit}
+.hidden{display:none!important}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-thumb{background:#D4D4D4;border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:#B8B8B8}
+::-webkit-scrollbar-track{background:transparent}
+
+/* ─── SHELL ─── */
+.shell{display:flex;height:100vh;overflow:hidden}
+.sidebar{width:232px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0}
+.main{flex:1;overflow-y:auto;background:var(--bg)}
+
+/* ─── SIDEBAR ─── */
+.sb-top{padding:18px 16px 14px;display:flex;align-items:center;gap:11px;border-bottom:1px solid var(--border)}
+.logo-mark{width:44px;height:30px;background:var(--brand);border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0}
+.logo-mark svg{width:28px;height:16px;display:block}
+.logo-name{font-size:var(--md);font-weight:700;letter-spacing:-.01em}
+.logo-name span{color:var(--text-muted);font-weight:500}
+.logo-sub{font-size:10px;color:var(--text-faint);font-weight:500;letter-spacing:.04em;text-transform:uppercase;margin-top:1px}
+
+.sb-search{padding:12px 12px 4px}
+.sb-search-inner{display:flex;align-items:center;gap:8px;background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--r-md);padding:7px 10px}
+.sb-search-inner input{border:none;background:transparent;outline:none;font-size:var(--sm);color:var(--text-2);width:100%}
+.sb-search-inner svg{width:13px;height:13px;color:var(--text-faint);flex-shrink:0}
+
+.sb-section{padding:14px 16px 4px;font-size:10px;font-weight:700;color:var(--text-faint);letter-spacing:.08em;text-transform:uppercase}
+.sb-nav{padding:0 8px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 10px;font-size:var(--sm);font-weight:500;color:var(--text-2);border-radius:var(--r-md);transition:all .12s;cursor:pointer;margin-bottom:1px}
+.nav-item:hover:not(.active){background:var(--surface-alt);color:var(--text)}
+.nav-item.active{background:var(--indigo-soft);color:var(--indigo);font-weight:600}
+.nav-item svg{width:15px;height:15px;flex-shrink:0}
+.nav-badge{margin-left:auto;background:var(--brand);color:#fff;font-size:10px;padding:1px 7px;border-radius:var(--r-full);font-weight:700;min-width:20px;text-align:center}
+.nav-badge.warn{background:var(--amber-bg);color:var(--amber)}
+.nav-badge.ok{background:var(--green-bg);color:var(--green)}
+
+.sb-footer{margin-top:auto;padding:14px 12px;border-top:1px solid var(--border)}
+.mode-card{background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--r-md);padding:10px 12px;cursor:pointer;transition:all .12s}
+.mode-card:hover{background:#F3F4F6}
+.mode-row{display:flex;align-items:center;gap:8px;margin-bottom:2px}
+.mode-dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px rgba(45,125,70,.15)}
+.mode-dot.amber{background:var(--amber);box-shadow:0 0 0 3px rgba(217,119,6,.15)}
+.mode-dot.grey{background:#9CA3AF;box-shadow:0 0 0 3px rgba(156,163,175,.15)}
+.mode-label{font-size:var(--sm);font-weight:600;color:var(--text)}
+.mode-change{margin-left:auto;font-size:10px;color:var(--text-muted);font-weight:500}
+.mode-sub{font-size:var(--xs);color:var(--text-muted);padding-left:16px}
+
+.sb-user{display:flex;align-items:center;gap:10px;padding:10px 4px 2px;margin-top:10px}
+.sb-user .avatar{width:30px;height:30px;font-size:11px;border:none}
+.sb-user-name{font-size:var(--sm);font-weight:600;color:var(--text);line-height:1.2}
+.sb-user-role{font-size:10px;color:var(--text-muted);line-height:1.2;margin-top:1px}
+
+/* ─── BUTTONS ─── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:34px;padding:0 14px;border-radius:var(--r-md);font-size:var(--sm);font-weight:600;transition:all .12s;white-space:nowrap}
+.btn svg{width:14px;height:14px}
+.btn-primary{background:var(--brand);color:#fff}
+.btn-primary:hover{background:#333}
+.btn-indigo{background:var(--indigo);color:#fff}
+.btn-indigo:hover{background:#302d63}
+.btn-outline{background:var(--surface);color:var(--text);border:1px solid var(--border)}
+.btn-outline:hover{background:var(--surface-alt);border-color:#D4D4D4}
+.btn-ghost{background:transparent;color:var(--text-2)}
+.btn-ghost:hover{background:var(--surface-alt)}
+.btn-red{background:var(--surface);color:var(--red);border:1px solid var(--border)}
+.btn-red:hover{background:var(--red-bg);border-color:#F4C8C8}
+.btn-sm{height:28px;padding:0 10px;font-size:var(--xs)}
+.btn-xs{height:24px;padding:0 8px;font-size:var(--xs);border-radius:var(--r-sm)}
+.btn-icon{width:30px;height:30px;padding:0;display:inline-flex;align-items:center;justify-content:center;border-radius:var(--r-md);color:var(--text-2)}
+.btn-icon:hover{background:var(--surface-alt);color:var(--text)}
+
+/* ─── TAGS ─── */
+.tag{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:var(--r-sm);font-size:10px;font-weight:700;white-space:nowrap;letter-spacing:.02em;text-transform:uppercase}
+.tag-neutral{background:#F3F4F6;color:#374151}
+.tag-blue{background:var(--blue-bg);color:var(--blue)}
+.tag-violet{background:var(--violet-bg);color:var(--violet)}
+.tag-green{background:var(--green-bg);color:var(--green)}
+.tag-red{background:var(--red-bg);color:var(--red)}
+.tag-amber{background:var(--amber-bg);color:var(--amber)}
+.tag-teal{background:var(--teal-bg);color:var(--teal)}
+.tag-indigo{background:var(--indigo-soft);color:var(--indigo)}
+
+/* ─── AVATARS ─── */
+.avatar{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:var(--xs);border:2px solid var(--surface);flex-shrink:0;color:#fff}
+.av-1{background:#E8A87C}.av-2{background:#C38D9E}.av-3{background:#85C9C0}
+.av-4{background:#F4B266}.av-5{background:#A8B5E0}.av-6{background:#D1A6C9}
+.av-7{background:#7BB3A0}.av-8{background:#E79B8F}.av-9{background:#9AB6D1}
+.av-10{background:#C8A87C}
+
+/* ─── PAGE HEADER ─── */
+.page-head{padding:20px 32px 0}
+.page-head-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.page-title{font-size:var(--xl);font-weight:700;color:var(--text);letter-spacing:-.01em}
+.page-sub{font-size:var(--sm);color:var(--text-muted);margin-top:2px}
+.page-actions{display:flex;gap:8px;align-items:center}
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--border);padding:0 32px;margin-top:16px}
+.tab{padding:10px 14px;font-size:var(--sm);font-weight:500;color:var(--text-muted);border-bottom:2px solid transparent;margin-bottom:-1px;cursor:pointer;transition:all .12s}
+.tab.active{color:var(--text);border-bottom-color:var(--brand);font-weight:600}
+.tab:hover:not(.active){color:var(--text-2)}
+.content{padding:20px 32px 32px}
+
+/* ─── CARDS ─── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--shadow-1)}
+.card-head{padding:16px 18px 12px;border-bottom:1px solid var(--border-light);display:flex;align-items:center;justify-content:space-between}
+.card-title{font-size:var(--md);font-weight:700;color:var(--text)}
+.card-sub{font-size:var(--xs);color:var(--text-muted);margin-top:2px}
+.card-body{padding:16px 18px}
+
+/* ─── INBOX ─── */
+.inbox{display:flex;gap:16px;height:calc(100vh - 84px);padding:16px 24px 24px}
+.queue{width:300px;flex-shrink:0;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);display:flex;flex-direction:column;overflow:hidden;box-shadow:var(--shadow-1)}
+.queue-head{padding:14px 16px 10px;border-bottom:1px solid var(--border-light)}
+.queue-title-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.queue-title{font-size:var(--md);font-weight:700;color:var(--text)}
+.queue-count{background:var(--indigo-soft);color:var(--indigo);font-size:var(--xs);padding:2px 8px;border-radius:var(--r-full);font-weight:700}
+.queue-filter{display:flex;gap:2px;background:var(--surface-alt);border-radius:var(--r-md);padding:3px}
+.queue-filter button{flex:1;padding:5px 8px;font-size:var(--xs);font-weight:600;color:var(--text-muted);border-radius:5px;transition:all .1s}
+.queue-filter button.on{background:var(--surface);color:var(--text);box-shadow:var(--shadow-1)}
+.queue-list{flex:1;overflow-y:auto}
+.q-item{padding:13px 16px;border-bottom:1px solid var(--border-light);cursor:pointer;transition:background .1s;position:relative}
+.q-item:hover:not(.active){background:var(--surface-alt)}
+.q-item.active{background:var(--indigo-soft)}
+.q-item.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--indigo)}
+.q-row{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.q-name{font-size:var(--md);font-weight:600;color:var(--text);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.q-time{font-size:10px;color:var(--text-faint);font-weight:500;flex-shrink:0}
+.q-preview{font-size:var(--sm);color:var(--text-muted);line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:6px}
+.q-tags{display:flex;gap:4px;flex-wrap:wrap}
+.q-unread{position:absolute;top:16px;right:16px;width:7px;height:7px;border-radius:50%;background:var(--indigo)}
+
+.approve{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);display:flex;flex-direction:column;overflow:hidden;box-shadow:var(--shadow-1);min-width:0}
+.ap-head{padding:18px 24px;border-bottom:1px solid var(--border-light);display:flex;align-items:center;gap:14px}
+.ap-head .avatar{width:46px;height:46px;font-size:var(--md);border:none}
+.ap-head-info{flex:1;min-width:0}
+.ap-head-name{font-size:var(--lg);font-weight:700;color:var(--text);letter-spacing:-.01em}
+.ap-head-ctx{font-size:var(--sm);color:var(--text-muted);margin-top:2px}
+.ap-head-tags{display:flex;gap:6px;flex-shrink:0}
+.ap-body{flex:1;overflow-y:auto;padding:22px 26px 12px;background:#FAFAFA}
+.ap-label{font-size:10px;font-weight:700;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.ap-msg{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px 18px;margin-bottom:18px;box-shadow:var(--shadow-1)}
+.ap-msg-text{font-size:var(--md);color:var(--text);line-height:1.55}
+.ap-draft{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--indigo);border-radius:var(--r-lg);padding:16px 18px;margin-bottom:18px;box-shadow:var(--shadow-1);position:relative}
+.ap-draft-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.ap-draft-label{font-size:10px;font-weight:700;color:var(--indigo);letter-spacing:.08em;text-transform:uppercase}
+.conf-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 7px;border-radius:var(--r-sm);font-size:10px;font-weight:700;letter-spacing:.02em}
+.conf-high{background:var(--green-bg);color:var(--green)}
+.conf-low{background:var(--amber-bg);color:var(--amber)}
+.ap-draft-regen{margin-left:auto;font-size:var(--xs);color:var(--indigo);font-weight:600;display:flex;align-items:center;gap:4px;padding:4px 8px;border-radius:var(--r-sm);cursor:pointer}
+.ap-draft-regen:hover{background:var(--indigo-soft)}
+.ap-draft-regen svg{width:12px;height:12px}
+.ap-draft-regen.loading svg{animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ap-draft-text{font-size:var(--md);color:var(--text);line-height:1.55;white-space:pre-wrap}
+.ap-reason{background:#F3F4F6;border-left:2px solid var(--text-faint);padding:10px 14px;border-radius:var(--r-md);margin-bottom:14px;font-size:var(--sm);color:var(--text-muted);line-height:1.5}
+.ap-reason strong{color:var(--text-2);font-weight:600}
+.ap-history-toggle{display:flex;align-items:center;gap:6px;padding:8px 0;color:var(--text-muted);font-size:var(--sm);font-weight:500;cursor:pointer;margin-bottom:8px}
+.ap-history-toggle:hover{color:var(--text)}
+.ap-history-toggle svg{width:12px;height:12px;transition:transform .15s}
+.ap-history-toggle.open svg{transform:rotate(90deg)}
+.ap-history{padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);margin-bottom:14px}
+.hist-msg{display:flex;gap:10px;padding:8px 0;font-size:var(--sm);line-height:1.5}
+.hist-msg+.hist-msg{border-top:1px solid var(--border-light)}
+.hist-who{font-weight:700;color:var(--text-2);flex-shrink:0;width:80px}
+.hist-who.them{color:var(--indigo)}
+.hist-text{flex:1;color:var(--text-2)}
+.hist-time{font-size:10px;color:var(--text-faint);flex-shrink:0}
+.ap-actions{padding:16px 26px;border-top:1px solid var(--border);background:var(--surface);display:flex;gap:10px;align-items:center}
+.ap-actions .btn{flex:1;height:40px;font-size:var(--base)}
+.ap-actions .btn-indigo{flex:2}
+
+.ap-empty{flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;color:var(--text-muted);padding:40px}
+.ap-empty svg{width:48px;height:48px;opacity:.3}
+
+/* ─── APPOINTMENTS ─── */
+.week-strip{display:flex;gap:6px;margin-bottom:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:6px;box-shadow:var(--shadow-1)}
+.week-day{flex:1;padding:10px 8px;text-align:center;border-radius:var(--r-md);cursor:pointer;transition:all .12s}
+.week-day:hover:not(.on){background:var(--surface-alt)}
+.week-day.on{background:var(--brand);color:#fff}
+.week-day-name{font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;opacity:.7;margin-bottom:2px}
+.week-day-num{font-size:var(--lg);font-weight:700;line-height:1}
+.week-day-count{font-size:10px;font-weight:600;margin-top:3px;opacity:.7}
+
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px 18px;box-shadow:var(--shadow-1)}
+.stat-card.accent-indigo{background:var(--card-indigo);color:#fff;border-color:var(--card-indigo)}
+.stat-card.accent-teal{background:var(--card-teal);color:#fff;border-color:var(--card-teal)}
+.stat-card.accent-amber{background:var(--card-amber);color:#fff;border-color:var(--card-amber)}
+.stat-label{font-size:var(--xs);font-weight:600;opacity:.7;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.stat-val{font-size:var(--xxl);font-weight:700;letter-spacing:-.02em;line-height:1}
+.stat-delta{font-size:var(--xs);margin-top:6px;font-weight:500;opacity:.8}
+.stat-delta.up{color:var(--green)}
+.stat-card.accent-indigo .stat-delta,.stat-card.accent-teal .stat-delta,.stat-card.accent-amber .stat-delta{color:rgba(255,255,255,.85)}
+
+.table{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-1)}
+.table table{width:100%;border-collapse:collapse}
+.table th{text-align:left;font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;padding:12px 16px;background:var(--surface-alt);border-bottom:1px solid var(--border)}
+.table td{padding:13px 16px;font-size:var(--sm);color:var(--text-2);border-bottom:1px solid var(--border-light)}
+.table tr:last-child td{border-bottom:none}
+.table tbody tr{cursor:pointer;transition:background .1s}
+.table tbody tr:hover{background:var(--surface-alt)}
+.table .cell-time{font-weight:700;color:var(--text)}
+.table .cell-name{font-weight:600;color:var(--text)}
+
+.risk-bar{display:flex;align-items:center;gap:8px}
+.risk-track{width:64px;height:5px;background:var(--border-light);border-radius:var(--r-full);overflow:hidden}
+.risk-fill{height:100%;border-radius:var(--r-full)}
+.risk-fill.low{background:var(--green)}
+.risk-fill.med{background:var(--amber)}
+.risk-fill.high{background:var(--red)}
+.risk-val{font-size:var(--xs);font-weight:700;width:34px;text-align:right}
+.risk-val.low{color:var(--green)}
+.risk-val.med{color:var(--amber)}
+.risk-val.high{color:var(--red)}
+
+/* ─── CONTACTS ─── */
+.contact-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.contact-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;box-shadow:var(--shadow-1);cursor:pointer;transition:all .15s}
+.contact-card:hover{border-color:#D4D4D4;box-shadow:var(--shadow-2);transform:translateY(-1px)}
+.cc-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px}
+.cc-head .avatar{width:44px;height:44px;font-size:var(--sm);border:none}
+.cc-name{font-size:var(--md);font-weight:700;color:var(--text);line-height:1.2}
+.cc-sub{font-size:var(--xs);color:var(--text-muted);margin-top:3px;line-height:1.35}
+.cc-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+.cc-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding-top:12px;border-top:1px solid var(--border-light)}
+.cc-stat-label{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;font-weight:600}
+.cc-stat-val{font-size:var(--md);font-weight:700;color:var(--text);margin-top:2px}
+.cc-lapse{margin-top:12px;padding-top:12px;border-top:1px solid var(--border-light)}
+.cc-lapse-row{display:flex;justify-content:space-between;font-size:var(--xs);color:var(--text-muted);margin-bottom:4px;font-weight:600}
+.cc-lapse-track{height:5px;background:var(--border-light);border-radius:var(--r-full);overflow:hidden}
+.cc-lapse-fill{height:100%;border-radius:var(--r-full)}
+
+/* ─── FOLLOW UP ─── */
+.fu-list{display:flex;flex-direction:column;gap:10px}
+.fu-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px 18px;box-shadow:var(--shadow-1);display:flex;gap:14px}
+.fu-item:hover{border-color:#D4D4D4;box-shadow:var(--shadow-2)}
+.fu-item .avatar{width:40px;height:40px;font-size:var(--sm);border:none}
+.fu-main{flex:1;min-width:0}
+.fu-top{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.fu-name{font-size:var(--md);font-weight:700;color:var(--text)}
+.fu-reason{font-size:var(--xs);color:var(--text-muted);margin-bottom:8px}
+.fu-reason strong{color:var(--amber);font-weight:700}
+.fu-preview{background:var(--surface-alt);border:1px solid var(--border-light);border-radius:var(--r-md);padding:10px 12px;font-size:var(--sm);color:var(--text-2);line-height:1.5;margin-bottom:10px}
+.fu-actions{display:flex;gap:6px}
+
+/* ─── ANALYTICS ─── */
+.analytics-grid{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-top:16px}
+.chart-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:18px 20px;box-shadow:var(--shadow-1)}
+.chart-title{font-size:var(--md);font-weight:700;color:var(--text);margin-bottom:4px}
+.chart-sub{font-size:var(--xs);color:var(--text-muted);margin-bottom:16px}
+.bars{display:flex;align-items:flex-end;gap:8px;height:180px;padding-top:8px}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%}
+.bar{width:100%;max-width:32px;background:linear-gradient(180deg,var(--indigo) 0%,#5552A3 100%);border-radius:4px 4px 0 0;min-height:4px;transition:all .3s}
+.bar-label{font-size:10px;color:var(--text-muted);font-weight:600}
+
+.lang-rows{display:flex;flex-direction:column;gap:12px}
+.lang-row{display:flex;align-items:center;gap:10px}
+.lang-name{font-size:var(--sm);font-weight:600;color:var(--text-2);width:74px;flex-shrink:0}
+.lang-track{flex:1;height:8px;background:var(--border-light);border-radius:var(--r-full);overflow:hidden}
+.lang-fill{height:100%;border-radius:var(--r-full);background:var(--indigo)}
+.lang-pct{font-size:var(--xs);font-weight:700;color:var(--text-muted);width:32px;text-align:right}
+
+.heatmap{display:grid;grid-template-columns:42px repeat(12,1fr);gap:3px;margin-top:8px}
+.heat-cell{aspect-ratio:1.4;border-radius:3px;background:var(--surface-alt)}
+.heat-label{font-size:10px;color:var(--text-muted);font-weight:600;display:flex;align-items:center;justify-content:flex-end;padding-right:4px}
+.heat-hdr{font-size:9px;color:var(--text-faint);text-align:center;font-weight:600;padding:0}
+
+.q-top{display:flex;flex-direction:column;gap:10px}
+.q-top-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border-light)}
+.q-top-row:last-child{border-bottom:none}
+.q-top-num{width:22px;height:22px;background:var(--indigo-soft);color:var(--indigo);border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:var(--xs);font-weight:700;flex-shrink:0}
+.q-top-text{flex:1;font-size:var(--sm);color:var(--text-2)}
+.q-top-count{font-size:var(--xs);font-weight:700;color:var(--text-muted)}
+
+/* ─── KNOWLEDGE BASE ─── */
+.kb-layout{display:grid;grid-template-columns:200px 1fr 340px;gap:16px;height:calc(100vh - 150px)}
+.kb-nav{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:12px;box-shadow:var(--shadow-1);overflow-y:auto}
+.kb-nav-item{padding:9px 12px;font-size:var(--sm);font-weight:500;color:var(--text-2);border-radius:var(--r-md);cursor:pointer;margin-bottom:2px;display:flex;align-items:center;gap:9px}
+.kb-nav-item svg{width:14px;height:14px}
+.kb-nav-item:hover:not(.on){background:var(--surface-alt)}
+.kb-nav-item.on{background:var(--indigo-soft);color:var(--indigo);font-weight:600}
+.kb-editor{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--shadow-1);overflow-y:auto;padding:24px 28px}
+.kb-section-title{font-size:var(--lg);font-weight:700;color:var(--text);margin-bottom:6px}
+.kb-section-sub{font-size:var(--sm);color:var(--text-muted);margin-bottom:20px;line-height:1.5}
+.kb-field{margin-bottom:18px}
+.kb-field-label{display:block;font-size:var(--xs);font-weight:700;color:var(--text-2);margin-bottom:6px;letter-spacing:.02em;text-transform:uppercase}
+.kb-field-label small{font-weight:500;color:var(--text-muted);text-transform:none;letter-spacing:0;margin-left:6px}
+.kb-input,.kb-textarea,.kb-select{width:100%;padding:10px 12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);font-size:var(--sm);color:var(--text);transition:all .12s}
+.kb-input:focus,.kb-textarea:focus,.kb-select:focus{outline:none;border-color:var(--indigo);box-shadow:0 0 0 3px rgba(61,58,122,.1)}
+.kb-textarea{min-height:84px;resize:vertical;line-height:1.5;font-family:var(--font)}
+.kb-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.kb-row-3{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px}
+.kb-list-item{background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--r-md);padding:12px 14px;margin-bottom:10px;display:flex;align-items:flex-start;gap:12px}
+.kb-list-main{flex:1;min-width:0}
+.kb-list-title{font-size:var(--sm);font-weight:700;color:var(--text);margin-bottom:2px}
+.kb-list-sub{font-size:var(--xs);color:var(--text-muted);line-height:1.5}
+.kb-list-del{color:var(--text-muted);padding:2px 6px;border-radius:var(--r-sm);cursor:pointer}
+.kb-list-del:hover{color:var(--red);background:var(--red-bg)}
+.kb-add-btn{width:100%;padding:10px;border:1px dashed var(--border);border-radius:var(--r-md);font-size:var(--sm);font-weight:600;color:var(--text-muted);cursor:pointer;background:transparent;transition:all .12s}
+.kb-add-btn:hover{border-color:var(--indigo);color:var(--indigo);background:var(--indigo-soft)}
+.kb-save-row{display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid var(--border-light);margin-top:20px}
+.kb-save-status{font-size:var(--xs);color:var(--green);font-weight:600;display:flex;align-items:center;gap:6px}
+
+.kb-test{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--shadow-1);display:flex;flex-direction:column;overflow:hidden}
+.kb-test-head{padding:14px 16px;border-bottom:1px solid var(--border-light);display:flex;align-items:center;gap:10px}
+.kb-test-dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px rgba(45,125,70,.15)}
+.kb-test-title{font-size:var(--sm);font-weight:700;color:var(--text)}
+.kb-test-sub{font-size:10px;color:var(--text-muted);margin-left:auto}
+.kb-test-log{flex:1;overflow-y:auto;padding:14px 16px;background:var(--surface-alt);display:flex;flex-direction:column;gap:10px}
+.kb-msg{max-width:82%;padding:9px 13px;border-radius:var(--r-lg);font-size:var(--sm);line-height:1.5}
+.kb-msg.user{background:var(--indigo);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.kb-msg.ai{background:var(--surface);color:var(--text);align-self:flex-start;border:1px solid var(--border);border-bottom-left-radius:4px;white-space:pre-wrap}
+.kb-msg.ai.loading{color:var(--text-muted);font-style:italic}
+.kb-test-input{padding:12px 14px;border-top:1px solid var(--border-light);display:flex;gap:8px;background:var(--surface)}
+.kb-test-input input{flex:1;padding:9px 12px;background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--r-md);font-size:var(--sm);outline:none}
+.kb-test-input input:focus{border-color:var(--indigo)}
+.kb-test-input button{padding:0 14px;background:var(--indigo);color:#fff;border-radius:var(--r-md);font-size:var(--sm);font-weight:600}
+
+/* ─── SETTINGS ─── */
+.set-layout{max-width:760px}
+.set-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--shadow-1);margin-bottom:16px;padding:22px 26px}
+.set-section-title{font-size:var(--md);font-weight:700;color:var(--text);margin-bottom:4px}
+.set-section-sub{font-size:var(--xs);color:var(--text-muted);margin-bottom:18px}
+.set-mode-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.set-mode{border:1px solid var(--border);border-radius:var(--r-md);padding:14px;cursor:pointer;transition:all .12s}
+.set-mode:hover{border-color:#D4D4D4}
+.set-mode.on{border-color:var(--indigo);background:var(--indigo-soft)}
+.set-mode-dot{width:8px;height:8px;border-radius:50%;margin-bottom:10px}
+.set-mode-name{font-size:var(--sm);font-weight:700;color:var(--text);margin-bottom:3px}
+.set-mode-desc{font-size:var(--xs);color:var(--text-muted);line-height:1.5}
+.set-field{margin-bottom:14px}
+.set-field label{display:block;font-size:var(--xs);font-weight:700;color:var(--text-2);margin-bottom:6px;letter-spacing:.02em;text-transform:uppercase}
+.set-field input,.set-field textarea{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--r-md);font-size:var(--sm);background:var(--surface)}
+.set-field input:focus{outline:none;border-color:var(--indigo);box-shadow:0 0 0 3px rgba(61,58,122,.1)}
+.set-key{font-family:'Monaco','Menlo','Courier New',monospace;font-size:var(--xs)!important}
+.set-hint{font-size:var(--xs);color:var(--text-muted);margin-top:6px;line-height:1.5}
+
+/* ─── DEMO SIM ─── */
+#demo-sim{position:fixed;bottom:20px;right:20px;z-index:900;width:340px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--shadow-3);overflow:hidden;transition:all .2s}
+#demo-sim.collapsed{width:auto}
+#demo-sim.collapsed .sim-body{display:none}
+.sim-head{padding:12px 14px;background:#1A1A1A;color:#fff;display:flex;align-items:center;gap:10px;cursor:pointer}
+.sim-head-dot{width:7px;height:7px;border-radius:50%;background:#34D399;box-shadow:0 0 0 3px rgba(52,211,153,.2)}
+.sim-head-label{font-size:var(--sm);font-weight:700;flex:1}
+.sim-head-chev{font-size:var(--sm);opacity:.7}
+.sim-body{padding:14px}
+.sim-sub{font-size:var(--xs);color:var(--text-muted);margin-bottom:10px;line-height:1.5}
+.sim-cust-row{display:flex;gap:6px;margin-bottom:10px}
+.sim-cust{flex:1;padding:8px 6px;background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--r-md);cursor:pointer;text-align:center;transition:all .12s}
+.sim-cust.on{background:var(--indigo-soft);border-color:var(--indigo)}
+.sim-cust-name{font-size:10px;font-weight:700;color:var(--text);line-height:1.2}
+.sim-cust-sub{font-size:9px;color:var(--text-muted);margin-top:2px;line-height:1.2}
+.sim-input{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--r-md);font-size:var(--sm);font-family:var(--font);min-height:60px;resize:vertical;margin-bottom:8px;background:var(--surface-alt)}
+.sim-input:focus{outline:none;border-color:var(--indigo);background:var(--surface)}
+.sim-send{width:100%;padding:10px;background:var(--indigo);color:#fff;border-radius:var(--r-md);font-size:var(--sm);font-weight:700}
+.sim-send:hover{background:#302d63}
+.sim-send:disabled{opacity:.5;cursor:not-allowed}
+.sim-hint{font-size:10px;color:var(--text-faint);margin-top:8px;text-align:center;font-style:italic}
+
+/* ─── TOAST ─── */
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--text);color:#fff;padding:12px 18px;border-radius:var(--r-md);font-size:var(--sm);font-weight:600;box-shadow:var(--shadow-3);z-index:2000;opacity:0;transition:all .25s;pointer-events:none;display:flex;align-items:center;gap:8px}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#toast svg{width:14px;height:14px}
+
+/* ─── DOT ─── */
+.status-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px;vertical-align:middle}
+.dot-green{background:var(--green)}.dot-amber{background:var(--amber)}.dot-red{background:var(--red)}.dot-grey{background:#9CA3AF}
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <!-- ═══ SIDEBAR ═══ -->
+  <aside class="sidebar">
+    <div class="sb-top">
+      <div class="logo-mark">
+        <svg viewBox="0 0 56 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 12 C16 5 24 5 27 12 C30 19 38 19 38 12 C38 5 30 5 27 12 C24 19 16 19 16 12 Z"/>
+        </svg>
+      </div>
+      <div>
+        <div class="logo-name">Eight <span>Ai</span></div>
+        <div class="logo-sub">Klinik Cahaya</div>
+      </div>
+    </div>
+
+    <div class="sb-search">
+      <div class="sb-search-inner">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input placeholder="Search patients, messages..." />
+      </div>
+    </div>
+
+    <div class="sb-section">Workspace</div>
+    <div class="sb-nav">
+      <div class="nav-item active" data-screen="inbox">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
+        Inbox
+        <span class="nav-badge" id="nav-inbox-count">8</span>
+      </div>
+      <div class="nav-item" data-screen="appointments">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        Appointments
+      </div>
+      <div class="nav-item" data-screen="contacts">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Contacts
+      </div>
+      <div class="nav-item" data-screen="followup">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>
+        Follow-Up
+        <span class="nav-badge warn">12</span>
+      </div>
+      <div class="nav-item" data-screen="analytics">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+        Analytics
+      </div>
+      <div class="nav-item" data-screen="knowledge">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        Knowledge Base
+      </div>
+    </div>
+
+    <div class="sb-section">System</div>
+    <div class="sb-nav">
+      <div class="nav-item" data-screen="settings">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Settings
+      </div>
+    </div>
+
+    <div class="sb-footer">
+      <div class="mode-card" onclick="showScreen('settings')">
+        <div class="mode-row">
+          <div class="mode-dot amber" id="sb-mode-dot"></div>
+          <div class="mode-label" id="sb-mode-label">Approval</div>
+          <span class="mode-change">Change</span>
+        </div>
+        <div class="mode-sub">AI drafts • you approve</div>
+      </div>
+      <div class="sb-user">
+        <div class="avatar av-3" style="width:32px;height:32px;font-size:11px">MS</div>
+        <div>
+          <div class="sb-user-name">Muhsin Shah</div>
+          <div class="sb-user-role">Owner · Klinik Cahaya</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ═══ MAIN ═══ -->
+  <main class="main">
+
+    <!-- ─── INBOX ─── -->
+    <div id="screen-inbox" class="screen">
+      <div class="inbox">
+        <div class="queue">
+          <div class="queue-head">
+            <div class="queue-title-row">
+              <div class="queue-title">Inbox</div>
+              <div class="queue-count" id="q-count">8</div>
+            </div>
+            <div class="queue-filter">
+              <button class="on" data-filter="all">All</button>
+              <button data-filter="escalated">Escalated</button>
+              <button data-filter="ai">AI</button>
+              <button data-filter="booked">Booked</button>
+            </div>
+          </div>
+          <div class="queue-list" id="queue-list"></div>
+        </div>
+        <div class="approve" id="approve-panel"></div>
+      </div>
+    </div>
+
+    <!-- ─── APPOINTMENTS ─── -->
+    <div id="screen-appointments" class="screen hidden">
+      <div class="page-head">
+        <div class="page-head-row">
+          <div>
+            <div class="page-title">Appointments</div>
+            <div class="page-sub">Week of 6 – 12 April 2026</div>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-outline">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+              Export
+            </button>
+            <button class="btn btn-primary">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+              New appointment
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="content">
+        <div class="week-strip" id="week-strip"></div>
+        <div class="stat-row">
+          <div class="stat-card accent-indigo">
+            <div class="stat-label">Today</div>
+            <div class="stat-val">8</div>
+            <div class="stat-delta">4 confirmed · 2 pending</div>
+          </div>
+          <div class="stat-card accent-teal">
+            <div class="stat-label">High risk</div>
+            <div class="stat-val">2</div>
+            <div class="stat-delta">Flagged for manual call</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Reminders sent</div>
+            <div class="stat-val">14</div>
+            <div class="stat-delta up">↑ 100% delivered</div>
+          </div>
+          <div class="stat-card accent-amber">
+            <div class="stat-label">Week total</div>
+            <div class="stat-val">47</div>
+            <div class="stat-delta">+12 vs last week</div>
+          </div>
+        </div>
+        <div class="table">
+          <table>
+            <thead>
+              <tr>
+                <th>Time</th><th>Patient</th><th>Treatment</th><th>Doctor</th><th>Status</th><th>No-show risk</th><th>Reminder</th>
+              </tr>
+            </thead>
+            <tbody id="appt-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── CONTACTS ─── -->
+    <div id="screen-contacts" class="screen hidden">
+      <div class="page-head">
+        <div class="page-head-row">
+          <div>
+            <div class="page-title">Contacts</div>
+            <div class="page-sub">238 patients · sorted by lapse risk</div>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-outline">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 6h18M7 12h10M10 18h4"/></svg>
+              Sort
+            </button>
+            <button class="btn btn-outline">Import CSV</button>
+            <button class="btn btn-primary">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+              Add contact
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="content">
+        <div class="contact-grid" id="contact-grid"></div>
+      </div>
+    </div>
+
+    <!-- ─── FOLLOW UP ─── -->
+    <div id="screen-followup" class="screen hidden">
+      <div class="page-head">
+        <div class="page-head-row">
+          <div>
+            <div class="page-title">Follow-Up Queue</div>
+            <div class="page-sub">Lapsed patient recovery & post-visit upsells · AI drafted</div>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-outline">Settings</button>
+            <button class="btn btn-indigo">Approve all</button>
+          </div>
+        </div>
+      </div>
+      <div class="tabs">
+        <div class="tab active" data-fu-tab="lapsed">Lapsed Recovery <span class="tag tag-amber" style="margin-left:6px">7</span></div>
+        <div class="tab" data-fu-tab="upsell">Upsell Suggestions <span class="tag tag-violet" style="margin-left:6px">5</span></div>
+      </div>
+      <div class="content">
+        <div class="fu-list" id="fu-list"></div>
+      </div>
+    </div>
+
+    <!-- ─── ANALYTICS ─── -->
+    <div id="screen-analytics" class="screen hidden">
+      <div class="page-head">
+        <div class="page-head-row">
+          <div>
+            <div class="page-title">Analytics</div>
+            <div class="page-sub">What Seri has done for Klinik Cahaya</div>
+          </div>
+          <div class="page-actions">
+            <div class="queue-filter" style="background:var(--surface);border:1px solid var(--border)">
+              <button class="on">7 days</button>
+              <button>30 days</button>
+              <button>90 days</button>
+            </div>
+            <button class="btn btn-outline">Export report</button>
+          </div>
+        </div>
+      </div>
+      <div class="content">
+        <div class="stat-row">
+          <div class="stat-card accent-indigo">
+            <div class="stat-label">Messages handled</div>
+            <div class="stat-val">1,284</div>
+            <div class="stat-delta">↑ 18% vs last period</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">AI resolution rate</div>
+            <div class="stat-val">87%</div>
+            <div class="stat-delta up">↑ 4% vs last period</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Avg response time</div>
+            <div class="stat-val">8s</div>
+            <div class="stat-delta up">−42s vs last period</div>
+          </div>
+          <div class="stat-card accent-teal">
+            <div class="stat-label">Escalation rate</div>
+            <div class="stat-val">13%</div>
+            <div class="stat-delta">16 escalations this week</div>
+          </div>
+        </div>
+        <div class="analytics-grid">
+          <div class="chart-card">
+            <div class="chart-title">Messages per day</div>
+            <div class="chart-sub">Last 7 days</div>
+            <div class="bars" id="bars-daily"></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-title">Language breakdown</div>
+            <div class="chart-sub">All messages</div>
+            <div class="lang-rows" style="margin-top:12px">
+              <div class="lang-row"><div class="lang-name">Manglish</div><div class="lang-track"><div class="lang-fill" style="width:44%"></div></div><div class="lang-pct">44%</div></div>
+              <div class="lang-row"><div class="lang-name">Bahasa</div><div class="lang-track"><div class="lang-fill" style="width:31%;background:var(--teal)"></div></div><div class="lang-pct">31%</div></div>
+              <div class="lang-row"><div class="lang-name">English</div><div class="lang-track"><div class="lang-fill" style="width:18%;background:var(--amber)"></div></div><div class="lang-pct">18%</div></div>
+              <div class="lang-row"><div class="lang-name">Mandarin</div><div class="lang-track"><div class="lang-fill" style="width:7%;background:var(--violet)"></div></div><div class="lang-pct">7%</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="analytics-grid" style="margin-top:16px">
+          <div class="chart-card">
+            <div class="chart-title">Peak hours</div>
+            <div class="chart-sub">When patients message — last 30 days</div>
+            <div class="heatmap" id="heatmap"></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-title">Top 5 questions</div>
+            <div class="chart-sub">Most asked this period</div>
+            <div class="q-top">
+              <div class="q-top-row"><div class="q-top-num">1</div><div class="q-top-text">Berapa harga Botox?</div><div class="q-top-count">142</div></div>
+              <div class="q-top-row"><div class="q-top-num">2</div><div class="q-top-text">Boleh book appointment esok?</div><div class="q-top-count">118</div></div>
+              <div class="q-top-row"><div class="q-top-num">3</div><div class="q-top-text">Open hari Sabtu?</div><div class="q-top-count">87</div></div>
+              <div class="q-top-row"><div class="q-top-num">4</div><div class="q-top-text">Is the filler halal?</div><div class="q-top-count">64</div></div>
+              <div class="q-top-row"><div class="q-top-num">5</div><div class="q-top-text">Nak tau package laser</div><div class="q-top-count">51</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── KNOWLEDGE BASE ─── -->
+    <div id="screen-knowledge" class="screen hidden">
+      <div class="page-head">
+        <div class="page-head-row">
+          <div>
+            <div class="page-title">Knowledge Base</div>
+            <div class="page-sub">Seri's brain · changes go live in under 60 seconds</div>
+          </div>
+          <div class="page-actions">
+            <div class="kb-save-status" id="kb-save-status">
+              <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>
+              All changes saved
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="content">
+        <div class="kb-layout">
+          <div class="kb-nav">
+            <div class="kb-nav-item on" data-kb="general">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+              General
+            </div>
+            <div class="kb-nav-item" data-kb="services">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              Services
+            </div>
+            <div class="kb-nav-item" data-kb="schedule">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              Doctor schedule
+            </div>
+            <div class="kb-nav-item" data-kb="hours">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              Opening hours
+            </div>
+            <div class="kb-nav-item" data-kb="faqs">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+              FAQs
+            </div>
+            <div class="kb-nav-item" data-kb="promos">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><path d="M7 7h.01"/></svg>
+              Promotions
+            </div>
+            <div class="kb-nav-item" data-kb="persona">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              Tone & Persona
+            </div>
+          </div>
+
+          <div class="kb-editor" id="kb-editor"></div>
+
+          <div class="kb-test">
+            <div class="kb-test-head">
+              <div class="kb-test-dot"></div>
+              <div class="kb-test-title">Test Seri live</div>
+              <div class="kb-test-sub">DeepSeek</div>
+            </div>
+            <div class="kb-test-log" id="kb-test-log">
+              <div class="kb-msg ai">Hai! Saya Seri dari Klinik Cahaya 😊 Ada yang boleh saya bantu today?</div>
+            </div>
+            <div class="kb-test-input">
+              <input id="kb-test-input" placeholder="Type as a patient..." />
+              <button id="kb-test-send">Send</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── SETTINGS ─── -->
+    <div id="screen-settings" class="screen hidden">
+      <div class="page-head">
+        <div class="page-title">Settings</div>
+        <div class="page-sub">Account, operating mode, AI & integrations</div>
+      </div>
+      <div class="content">
+        <div class="set-layout">
+
+          <div class="set-section">
+            <div class="set-section-title">Operating mode</div>
+            <div class="set-section-sub">Switch how Seri handles incoming messages. You can change this any time.</div>
+            <div class="set-mode-grid" id="set-mode-grid">
+              <div class="set-mode" data-mode="auto">
+                <div class="set-mode-dot" style="background:var(--green);box-shadow:0 0 0 3px rgba(45,125,70,.15)"></div>
+                <div class="set-mode-name">Full Auto</div>
+                <div class="set-mode-desc">Seri replies automatically. You only review escalations.</div>
+              </div>
+              <div class="set-mode on" data-mode="approval">
+                <div class="set-mode-dot" style="background:var(--amber);box-shadow:0 0 0 3px rgba(217,119,6,.15)"></div>
+                <div class="set-mode-name">Approval</div>
+                <div class="set-mode-desc">Every draft needs one tap before sending. Recommended.</div>
+              </div>
+              <div class="set-mode" data-mode="pause">
+                <div class="set-mode-dot" style="background:#9CA3AF;box-shadow:0 0 0 3px rgba(156,163,175,.15)"></div>
+                <div class="set-mode-name">Pause</div>
+                <div class="set-mode-desc">Nothing goes out. For closures and holidays.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="set-section">
+            <div class="set-section-title">AI engine</div>
+            <div class="set-section-sub">Seri is powered by DeepSeek. Your key is stored locally on this laptop only.</div>
+            <div class="set-field">
+              <label>DeepSeek API Key</label>
+              <input id="set-deepseek-key" class="set-key" type="password" placeholder="sk-..." />
+              <div class="set-hint">Used for drafting replies, the knowledge base test chat, and the regenerate button in Inbox.</div>
+            </div>
+            <div class="set-field">
+              <label>Model</label>
+              <input value="deepseek-chat" readonly />
+            </div>
+            <button class="btn btn-primary" onclick="saveDeepSeekKey()">Save key</button>
+          </div>
+
+          <div class="set-section">
+            <div class="set-section-title">WhatsApp connection</div>
+            <div class="set-section-sub">Coexistence mode · Klinik Cahaya's existing number</div>
+            <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--green-bg);border-radius:var(--r-md);margin-bottom:14px">
+              <div class="status-dot dot-green" style="width:10px;height:10px"></div>
+              <div style="flex:1">
+                <div style="font-size:var(--sm);font-weight:700;color:var(--green)">Connected</div>
+                <div style="font-size:var(--xs);color:var(--text-muted)">+60 13-222 8891 · WABA 2366584697149616</div>
+              </div>
+              <button class="btn btn-outline btn-sm">Reconnect</button>
+            </div>
+            <div class="set-field">
+              <label>Phone Number ID</label>
+              <input class="set-key" value="1025827590623258" readonly />
+            </div>
+          </div>
+
+          <div class="set-section">
+            <div class="set-section-title">Clinic details</div>
+            <div class="set-field">
+              <label>Clinic name</label>
+              <input value="Klinik Cahaya Aesthetic" />
+            </div>
+            <div class="set-field">
+              <label>Address</label>
+              <input value="D-12-03, Cyberjaya Square, 63000 Cyberjaya, Selangor" />
+            </div>
+            <div class="set-field">
+              <label>PDPA notice (shown to new patients)</label>
+              <textarea rows="3" style="min-height:60px;resize:vertical;font-family:var(--font);line-height:1.5">By messaging us, you agree to your information being used for appointments and service-related communication in line with PDPA 2010.</textarea>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ═══ DEMO SIMULATOR ═══ -->
+<div id="demo-sim">
+  <div class="sim-head" onclick="toggleSim()">
+    <div class="sim-head-dot"></div>
+    <div class="sim-head-label">Demo · Simulate a patient</div>
+    <div class="sim-head-chev" id="sim-chev">▾</div>
+  </div>
+  <div class="sim-body">
+    <div class="sim-sub">Type a WhatsApp message as if you are one of these patients. Seri will draft a reply in the Inbox.</div>
+    <div class="sim-cust-row" id="sim-cust-row"></div>
+    <textarea class="sim-input" id="sim-input" placeholder="Hai, nak tanya harga Botox..."></textarea>
+    <button class="sim-send" id="sim-send" onclick="sendSimMessage()">Send as customer →</button>
+    <div class="sim-hint">This appears in the Inbox as a real incoming message</div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   DATA LAYER — localStorage wrapper
+   Everything here is the seam. Swap for API calls later.
+   ═══════════════════════════════════════════════════════════ */
+const STORE_KEY = 'eight_ai_v1';
+const db = {
+  load(){
+    const raw = localStorage.getItem(STORE_KEY);
+    if(raw){ try { return JSON.parse(raw); } catch(e){} }
+    return null;
+  },
+  save(data){ localStorage.setItem(STORE_KEY, JSON.stringify(data)); }
+};
+
+/* ─── SEED DATA ─── */
+const SEED = {
+  settings: {
+    mode: 'approval',
+    deepseekKey: '',
+    clinicName: 'Klinik Cahaya Aesthetic',
+    aiName: 'Seri',
+    tone: 'warm',
+    currentSim: 0
+  },
+  kb: {
+    general: {
+      name: 'Klinik Cahaya Aesthetic',
+      tagline: 'Your trusted aesthetic clinic in Cyberjaya',
+      description: 'A boutique aesthetic clinic specialising in injectables, laser treatments, and skin rejuvenation. Led by Dr. Farah Adriana, MBBS.',
+      address: 'D-12-03, Cyberjaya Square, 63000 Cyberjaya, Selangor',
+      phone: '+60 13-222 8891',
+      email: 'hello@klinikcahaya.my'
+    },
+    services: [
+      { name:'Botox (per area)', price:'RM 800', duration:'30 min', desc:'Forehead, glabella, or crow\'s feet. Allergan authentic.' },
+      { name:'Dermal Filler', price:'RM 1,200', duration:'45 min', desc:'Juvederm HA filler. Lips, cheeks, chin.' },
+      { name:'IPL Laser', price:'RM 450', duration:'30 min', desc:'Pigmentation, acne marks, hair removal.' },
+      { name:'Chemical Peel', price:'RM 350', duration:'30 min', desc:'Gentle AHA/BHA peel for acne and dull skin.' },
+      { name:'HydraFacial', price:'RM 550', duration:'60 min', desc:'Deep cleanse, exfoliate, hydrate in one session.' },
+      { name:'Collagen Booster', price:'RM 1,500', duration:'45 min', desc:'Rejuran injectable for skin texture and firmness.' },
+      { name:'PRP Treatment', price:'RM 1,800', duration:'60 min', desc:'Platelet-rich plasma for hair and skin rejuvenation.' }
+    ],
+    schedule: [
+      { name:'Dr. Farah Adriana', role:'Medical Director', days:'Mon, Tue, Thu, Fri', hours:'10am – 6pm' },
+      { name:'Dr. Zuraidah Hassan', role:'Aesthetic Doctor', days:'Wed, Fri, Sat', hours:'11am – 7pm' },
+      { name:'Nurse Farah', role:'Treatment Nurse', days:'Mon – Sat', hours:'9am – 7pm' }
+    ],
+    hours: [
+      { day:'Monday', open:'10:00', close:'19:00', closed:false },
+      { day:'Tuesday', open:'10:00', close:'19:00', closed:false },
+      { day:'Wednesday', open:'10:00', close:'19:00', closed:false },
+      { day:'Thursday', open:'10:00', close:'19:00', closed:false },
+      { day:'Friday', open:'10:00', close:'19:00', closed:false },
+      { day:'Saturday', open:'11:00', close:'17:00', closed:false },
+      { day:'Sunday', open:'—', close:'—', closed:true }
+    ],
+    faqs: [
+      { q:'Are your products halal?', a:'Yes, all our injectables are halal-certified. Botox and fillers we use (Allergan, Juvederm) are approved for Muslim patients.' },
+      { q:'Do you accept walk-ins?', a:'We prefer appointments to reduce waiting time. You can book via WhatsApp — Seri will find you a slot instantly.' },
+      { q:'Is parking available?', a:'Yes, free parking inside Cyberjaya Square basement. Validated on entry.' },
+      { q:'First-time patient discount?', a:'Yes — first-time patients get 10% off any treatment above RM500. Just mention it when booking.' },
+      { q:'Can I pay in instalments?', a:'Yes, we accept Atome (3 months, 0%) and credit card instalment plans.' }
+    ],
+    promos: [
+      { title:'Hari Raya Special', desc:'15% off Botox & Filler packages', expiry:'30 April 2026' },
+      { title:'First Visit', desc:'10% off any treatment above RM500', expiry:'Ongoing' }
+    ],
+    persona: {
+      name:'Seri',
+      tone:'warm',
+      intro:'Hai! Saya Seri dari Klinik Cahaya 😊 Ada yang boleh saya bantu today?',
+      language:'auto'
+    }
+  },
+  contacts: [
+    { id:1, name:'Kak Rania Zulkifli', phone:'+60 12-345 6789', av:'av-1', initials:'RZ',
+      tags:['returning','VIP'], lang:'Manglish', visits:8, spend:6400, lastVisit:'5 weeks ago',
+      lastTreatment:'Botox (forehead)', pattern:'Every 5 weeks', lapseRisk:72, expected:'This week' },
+    { id:2, name:'Mei Ling Tan', phone:'+60 16-823 1002', av:'av-2', initials:'ML',
+      tags:['lapsed'], lang:'English', visits:4, spend:1800, lastVisit:'14 weeks ago',
+      lastTreatment:'IPL Laser #4', pattern:'Every 4 weeks', lapseRisk:89, expected:'10 weeks overdue' },
+    { id:3, name:'Ahmad Faizal', phone:'+60 11-289 4412', av:'av-3', initials:'AF',
+      tags:['new inquiry','hot lead'], lang:'Bahasa', visits:0, spend:0, lastVisit:'—',
+      lastTreatment:'—', pattern:'—', lapseRisk:0, expected:'—' },
+    { id:4, name:'Nurul Izzah', phone:'+60 19-234 5678', av:'av-4', initials:'NI',
+      tags:['returning'], lang:'Manglish', visits:3, spend:2400, lastVisit:'3 weeks ago',
+      lastTreatment:'HydraFacial', pattern:'Every 6 weeks', lapseRisk:35, expected:'3 weeks' },
+    { id:5, name:'Priya Raman', phone:'+60 17-556 2211', av:'av-5', initials:'PR',
+      tags:['returning','VIP'], lang:'English', visits:12, spend:9800, lastVisit:'2 weeks ago',
+      lastTreatment:'PRP Treatment', pattern:'Every 8 weeks', lapseRisk:20, expected:'6 weeks' },
+    { id:6, name:'Wong Jia Yi', phone:'+60 18-991 3344', av:'av-6', initials:'WJ',
+      tags:['lapsed'], lang:'English', visits:2, spend:900, lastVisit:'18 weeks ago',
+      lastTreatment:'Chemical Peel', pattern:'Every 6 weeks', lapseRisk:94, expected:'12 weeks overdue' },
+    { id:7, name:'Siti Aisyah', phone:'+60 13-778 5521', av:'av-7', initials:'SA',
+      tags:['returning'], lang:'Bahasa', visits:5, spend:3200, lastVisit:'6 weeks ago',
+      lastTreatment:'Dermal Filler (lips)', pattern:'Every 12 weeks', lapseRisk:25, expected:'6 weeks' },
+    { id:8, name:'Joyce Lim', phone:'+60 12-667 8899', av:'av-8', initials:'JL',
+      tags:['hot lead'], lang:'English', visits:0, spend:0, lastVisit:'—',
+      lastTreatment:'—', pattern:'—', lapseRisk:0, expected:'—' },
+    { id:9, name:'Farhana Aziz', phone:'+60 14-223 9911', av:'av-9', initials:'FA',
+      tags:['returning'], lang:'Manglish', visits:6, spend:4200, lastVisit:'8 weeks ago',
+      lastTreatment:'Botox + Filler combo', pattern:'Every 10 weeks', lapseRisk:40, expected:'2 weeks' }
+  ],
+  queue: [
+    { id:'q1', contactId:1, type:'returning', time:'2 min ago', unread:true, lang:'Manglish',
+      messages:[
+        { from:'them', text:'Hai Seri! Nak book Botox top-up lah, my forehead dah start show lines again 😅', time:'2 min ago' }
+      ],
+      draft:"Hai Kak Rania! 😊 Welcome back! Based on your last visit 5 weeks ago, memang dah time untuk top-up Botox (forehead). Dr. Farah ada opening:\n\n• Khamis (10 April) 2:00pm\n• Sabtu (12 April) 11:00am\n\nMana yang sesuai for you? Nanti I confirm the booking right away ya!",
+      confidence:'high', tag:'returning' },
+
+    { id:'q2', contactId:3, type:'new', time:'8 min ago', unread:true, lang:'Bahasa',
+      messages:[
+        { from:'them', text:'Assalamualaikum, saya nak tanya harga untuk Botox dahi dan ketiak. Tak pernah buat lagi, first timer ni. Open ke Sabtu?', time:'8 min ago' }
+      ],
+      draft:"Waalaikumsalam! Selamat datang ke Klinik Cahaya 😊 Saya Seri.\n\nUntuk Botox:\n• Dahi — RM 800 per area\n• Ketiak — RM 1,800 (untuk kurangkan peluh berlebihan)\n\nSebagai first-time patient, Encik Ahmad dapat 10% diskaun! Ya, kami buka Sabtu 11am – 5pm.\n\nNak saya book appointment dengan Dr. Farah untuk consultation dulu? Free je consultation. Sabtu 12 April ada slot 2pm & 4pm 😊",
+      confidence:'high', tag:'hot lead' },
+
+    { id:'q3', contactId:2, type:'lapsed', time:'1 hr ago', unread:true, lang:'English',
+      messages:[
+        { from:'them', text:'Hi, do you guys do laser hair removal? And how much is a full face IPL session?', time:'1 hr ago' }
+      ],
+      draft:"Hi Mei Ling! Welcome back 😊\n\nWe actually noticed you've done 4 IPL sessions with us before — your last one was about 14 weeks ago! For full face IPL, the price is RM 450 per session.\n\nWe're currently running a Hari Raya Special — 15% off laser packages until 30 April. Want me to book you a slot this week? Dr. Zuraidah has Wed 4pm or Sat 2pm available 🌸",
+      confidence:'high', tag:'lapsed' },
+
+    { id:'q4', contactId:4, type:'returning', time:'2 hr ago', unread:false, lang:'Manglish',
+      messages:[
+        { from:'them', text:'Eh seri, can I reschedule my facial tomorrow to next week ah? Got sudden meeting', time:'2 hr ago' }
+      ],
+      draft:"No problem Kak Nurul! 😊 Let me help you reschedule. For HydraFacial next week I have:\n\n• Tuesday 14 April — 3:00pm\n• Thursday 16 April — 11:00am\n• Friday 17 April — 4:00pm\n\nWhich one works best for you?",
+      confidence:'high', tag:'returning' },
+
+    { id:'q5', contactId:8, type:'new', time:'3 hr ago', unread:false, lang:'English',
+      messages:[
+        { from:'them', text:'Hello, I saw your clinic on Instagram. Do you do lip filler? And is your doctor experienced?', time:'3 hr ago' }
+      ],
+      draft:"Hi Joyce! Thanks for reaching out 💕 Yes, we do lip fillers — we use Juvederm HA filler (RM 1,200).\n\nOur medical director Dr. Farah Adriana has 8+ years of aesthetic experience, MBBS qualified. She'll do a consultation first to discuss the shape and volume you're looking for.\n\nWould you like to book a free consultation? We have slots this Thursday or Saturday 😊",
+      confidence:'high', tag:'hot lead' },
+
+    { id:'q6', contactId:5, type:'escalated', time:'4 hr ago', unread:false, lang:'English',
+      messages:[
+        { from:'them', text:'Hi Seri, after my PRP session last week I noticed some redness that\'s still there. Is this normal? A bit worried.', time:'4 hr ago' }
+      ],
+      draft:"ESCALATED — Dr. Farah notified. This is a clinical question about post-treatment symptoms that requires professional assessment. Seri has sent a handoff message: \"Hi Priya, I've just asked Dr. Farah to look at this for you — she'll respond personally in the next hour.\"",
+      confidence:'low', tag:'escalated', escalated:true },
+
+    { id:'q7', contactId:9, type:'returning', time:'5 hr ago', unread:false, lang:'Manglish',
+      messages:[
+        { from:'them', text:'Seri, my friend nak follow me next time boleh tak? She want to try HydraFacial juga', time:'5 hr ago' }
+      ],
+      draft:"Of course Kak Farhana! 😊 Bring her along — kami suka meet new patients! As your referral, she gets 10% off her first HydraFacial treatment.\n\nJust let me know the date when you both nak datang and I'll book for the two of you. Same time ok? 💕",
+      confidence:'high', tag:'returning' },
+
+    { id:'q8', contactId:7, type:'booked', time:'6 hr ago', unread:false, lang:'Bahasa',
+      messages:[
+        { from:'them', text:'Terima kasih Seri! Jumpa hari Khamis ya', time:'6 hr ago' }
+      ],
+      draft:"Sama-sama Puan Siti! 😊 Booking untuk Dermal Filler lip enhancement, Khamis 10 April jam 3:30pm dengan Dr. Farah sudah confirmed.\n\nSaya akan hantar reminder 24 jam sebelum appointment. Jumpa hari Khamis ya! 💕",
+      confidence:'high', tag:'booked' }
+  ],
+  appointments: [
+    { time:'10:00', patient:'Kak Nurul Izzah', treatment:'HydraFacial', doctor:'Dr. Farah', status:'Confirmed', risk:22, reminder:'Sent 24h ago' },
+    { time:'11:30', patient:'Priya Raman', treatment:'PRP Treatment', doctor:'Dr. Farah', status:'Confirmed', risk:18, reminder:'Sent 24h ago' },
+    { time:'13:00', patient:'Farah Zulkifli', treatment:'Chemical Peel', doctor:'Dr. Farah', status:'Confirmed', risk:44, reminder:'Sent 24h ago' },
+    { time:'14:30', patient:'Wong Jia Yi', treatment:'IPL Laser #2', doctor:'Dr. Zuraidah', status:'Pending', risk:78, reminder:'Sent 48h + 24h' },
+    { time:'15:30', patient:'Ahmad Danial', treatment:'Botox (forehead)', doctor:'Dr. Farah', status:'Confirmed', risk:31, reminder:'Sent 24h ago' },
+    { time:'16:00', patient:'Sarah Gomez', treatment:'Dermal Filler', doctor:'Dr. Farah', status:'Confirmed', risk:28, reminder:'Sent 24h ago' },
+    { time:'17:00', patient:'Lim Chee Hong', treatment:'Collagen Booster', doctor:'Dr. Zuraidah', status:'Pending', risk:72, reminder:'Sent 48h + 24h' },
+    { time:'18:00', patient:'Adriana Sofea', treatment:'HydraFacial', doctor:'Dr. Zuraidah', status:'Confirmed', risk:15, reminder:'Sent 24h ago' }
+  ],
+  followup: {
+    lapsed: [
+      { contactId:2, name:'Mei Ling Tan', av:'av-2', initials:'ML', reason:'10 weeks overdue', lastTreatment:'IPL Laser #4',
+        preview:'Hi Mei Ling! 😊 You biasanya dah nak do your laser touch-up around this time. Nak book slot this week? Ada opening Khamis 4pm dan Sabtu 2pm — Klinik Cahaya' },
+      { contactId:6, name:'Wong Jia Yi', av:'av-6', initials:'WJ', reason:'12 weeks overdue', lastTreatment:'Chemical Peel',
+        preview:'Hi Jia Yi! It\'s been a while since your last peel session — your skin is probably ready for a refresh 🌸 We have 15% off Hari Raya promo running until 30 April. Want me to slot you in?' },
+      { contactId:1, name:'Kak Rania Zulkifli', av:'av-1', initials:'RZ', reason:'Expected return this week', lastTreatment:'Botox (forehead)',
+        preview:'Hai Kak Rania! Botox you biasanya dah nak top-up by now 😊 Nak book slot minggu ni? Ada opening Khamis 3pm dan Sabtu 10am — Klinik Cahaya' },
+      { contactId:9, name:'Farhana Aziz', av:'av-9', initials:'FA', reason:'2 weeks overdue', lastTreatment:'Botox + Filler combo',
+        preview:'Hai Kak Farhana 😊 Dah nak time untuk top-up Botox ni. I have a 15% Hari Raya discount ready untuk you. Nak book this Saturday? Dr. Farah ada dari 11am – 5pm' }
+    ],
+    upsell: [
+      { contactId:5, name:'Priya Raman', av:'av-5', initials:'PR', reason:'Completed 4th PRP session', suggested:'Collagen Booster',
+        preview:'Hi Priya! 💕 Since you\'ve completed 4 PRP sessions now, Dr. Farah suggests adding a Collagen Booster (Rejuran) to amplify the firmness results. RM 1,500 — shall I slot you in for your next visit?' },
+      { contactId:7, name:'Siti Aisyah', av:'av-7', initials:'SA', reason:'Post-filler (2 weeks ago)', suggested:'HydraFacial',
+        preview:'Hai Puan Siti! 😊 Dah 2 minggu after your filler — recommended untuk tambah HydraFacial next visit so kulit lagi glow. RM 550 je. Nak I combine dengan your next filler top-up?' },
+      { contactId:4, name:'Nurul Izzah', av:'av-4', initials:'NI', reason:'3rd HydraFacial completed', suggested:'IPL Laser package',
+        preview:'Hi Kak Nurul! You\'ve been consistent with HydraFacial 3 kali dah 👏 Next level up — IPL Laser (RM 450) to target those pigmentation spots. Package 4 sessions ada diskaun 20%. Interested?' }
+    ]
+  }
+};
+
+/* ─── STATE ─── */
+let state = db.load() || SEED;
+if(!state.settings) state = SEED;
+const save = () => db.save(state);
+save();
+
+let ui = {
+  screen:'inbox',
+  activeQ:'q1',
+  queueFilter:'all',
+  kbSection:'general',
+  fuTab:'lapsed',
+  simCust:0
+};
+
+const SIM_CUSTOMERS = [
+  { id:1, name:'Kak Rania', sub:'Returning · Manglish', placeholder:'Hai Seri, nak book Botox top-up...' },
+  { id:3, name:'Ahmad', sub:'New · Bahasa', placeholder:'Assalamualaikum, nak tanya harga...' },
+  { id:2, name:'Mei Ling', sub:'Lapsed · English', placeholder:'Hi, is the laser package still available?' }
+];
+
+/* ═══════════════════════════════════════════════════════════
+   DEEPSEEK CLIENT
+   Single entry point used by: Inbox regen, KB test chat, new incoming sim
+   ═══════════════════════════════════════════════════════════ */
+const ai = {
+  buildKBPrompt(){
+    const kb = state.kb;
+    const services = kb.services.map(s => `- ${s.name}: ${s.price} (${s.duration}) — ${s.desc}`).join('\n');
+    const schedule = kb.schedule.map(d => `- ${d.name} (${d.role}): ${d.days}, ${d.hours}`).join('\n');
+    const hours = kb.hours.map(h => `${h.day}: ${h.closed ? 'Closed' : h.open + ' – ' + h.close}`).join(', ');
+    const faqs = kb.faqs.map(f => `Q: ${f.q}\nA: ${f.a}`).join('\n\n');
+    const promos = kb.promos.map(p => `- ${p.title}: ${p.desc} (until ${p.expiry})`).join('\n');
+    return `You are ${kb.persona.name}, the AI receptionist for ${kb.general.name} — a boutique aesthetic clinic in Cyberjaya, Malaysia.
+
+TONE: Warm, casual, friendly. You speak like a real Malaysian receptionist. Use natural Manglish when appropriate — "Eh nanti I check for you ya!" not "I will check for you." Mix languages naturally as Malaysians do.
+
+LANGUAGE: Auto-detect the patient's language from their message. Reply in the SAME language — Bahasa Melayu, English, Manglish, or Mandarin. Switch if they switch.
+
+CLINIC INFO:
+${kb.general.description}
+Address: ${kb.general.address}
+Phone: ${kb.general.phone}
+
+SERVICES & PRICES:
+${services}
+
+DOCTORS:
+${schedule}
+
+OPENING HOURS: ${hours}
+
+FAQs:
+${faqs}
+
+CURRENT PROMOTIONS:
+${promos}
+
+RULES:
+1. NEVER invent prices, doctors, or services not listed above.
+2. If asked something outside your knowledge — say you'll escalate to the team.
+3. For clinical questions (symptoms, reactions, side effects) — ALWAYS escalate, never advise.
+4. Use emojis sparingly but warmly (😊 💕 🌸).
+5. When booking appointments, offer 2-3 specific time slots.
+6. Keep replies concise — WhatsApp is mobile, long messages feel heavy.
+7. Address patients with Malaysian honorifics naturally (Kak, Encik, Puan, etc.) when you know their name.`;
+  },
+
+  async draft(messages, opts = {}){
+    const key = state.settings.deepseekKey;
+    if(!key) throw new Error('No DeepSeek key — set it in Settings');
+
+    const payload = {
+      model: 'deepseek-chat',
+      messages: [
+        { role:'system', content: this.buildKBPrompt() },
+        ...messages
+      ],
+      temperature: 0.7,
+      max_tokens: 400
+    };
+
+    try {
+      const res = await fetch('https://api.deepseek.com/v1/chat/completions', {
+        method:'POST',
+        headers:{
+          'Authorization':`Bearer ${key}`,
+          'Content-Type':'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+      if(!res.ok){
+        const err = await res.text();
+        throw new Error(`DeepSeek API error: ${res.status} ${err.slice(0,200)}`);
+      }
+      const data = await res.json();
+      return data.choices[0].message.content.trim();
+    } catch(e){
+      console.error('DeepSeek call failed:', e);
+      throw e;
+    }
+  }
+};
+
+/* ═══════════════════════════════════════════════════════════
+   RENDER — INBOX
+   ═══════════════════════════════════════════════════════════ */
+function getContact(id){ return state.contacts.find(c => c.id === id); }
+
+function renderQueue(){
+  const list = document.getElementById('queue-list');
+  const filter = ui.queueFilter;
+  const filtered = state.queue.filter(q => {
+    if(filter === 'all') return true;
+    if(filter === 'escalated') return q.type === 'escalated';
+    if(filter === 'ai') return !q.escalated && q.type !== 'booked';
+    if(filter === 'booked') return q.type === 'booked';
+    return true;
+  });
+
+  document.getElementById('q-count').textContent = filtered.length;
+  document.getElementById('nav-inbox-count').textContent = state.queue.filter(q => q.unread).length;
+
+  list.innerHTML = filtered.map(q => {
+    const c = getContact(q.contactId);
+    const lastMsg = q.messages[q.messages.length - 1];
+    const tagClass = {
+      'returning':'tag-blue','new':'tag-violet','lapsed':'tag-amber',
+      'hot lead':'tag-green','escalated':'tag-red','booked':'tag-teal'
+    }[q.tag] || 'tag-neutral';
+    return `
+      <div class="q-item ${ui.activeQ === q.id ? 'active' : ''}" onclick="selectQ('${q.id}')">
+        ${q.unread ? '<div class="q-unread"></div>' : ''}
+        <div class="q-row">
+          <div class="avatar ${c.av}" style="width:32px;height:32px;font-size:11px">${c.initials}</div>
+          <div class="q-name">${c.name}</div>
+          <div class="q-time">${q.time}</div>
+        </div>
+        <div class="q-preview">${lastMsg.text}</div>
+        <div class="q-tags">
+          <span class="tag ${tagClass}">${q.tag}</span>
+          <span class="tag tag-neutral">${q.lang}</span>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function selectQ(id){
+  ui.activeQ = id;
+  const q = state.queue.find(x => x.id === id);
+  if(q) q.unread = false;
+  save();
+  renderQueue();
+  renderApprove();
+}
+
+function renderApprove(){
+  const panel = document.getElementById('approve-panel');
+  const q = state.queue.find(x => x.id === ui.activeQ);
+  if(!q){
+    panel.innerHTML = `<div class="ap-empty">
+      <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <div>Select a conversation to review</div>
+    </div>`;
+    return;
+  }
+  const c = getContact(q.contactId);
+  const lastMsg = q.messages[q.messages.length - 1];
+  const history = q.messages.slice(0, -1);
+  const tagClass = {
+    'returning':'tag-blue','new':'tag-violet','lapsed':'tag-amber',
+    'hot lead':'tag-green','escalated':'tag-red','booked':'tag-teal'
+  }[q.tag] || 'tag-neutral';
+
+  const ctxLine = c.visits > 0
+    ? `Last visit ${c.lastVisit} · ${c.lastTreatment} · ${c.visits} visits · RM${c.spend.toLocaleString()} lifetime`
+    : 'New patient · First contact';
+
+  panel.innerHTML = `
+    <div class="ap-head">
+      <div class="avatar ${c.av}" style="width:46px;height:46px;font-size:14px">${c.initials}</div>
+      <div class="ap-head-info">
+        <div class="ap-head-name">${c.name}</div>
+        <div class="ap-head-ctx">${ctxLine}</div>
+      </div>
+      <div class="ap-head-tags">
+        <span class="tag ${tagClass}">${q.tag}</span>
+        <span class="tag tag-neutral">${c.lang}</span>
+      </div>
+    </div>
+
+    <div class="ap-body">
+      <div class="ap-label">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="width:12px;height:12px"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        They said · ${lastMsg.time}
+      </div>
+      <div class="ap-msg">
+        <div class="ap-msg-text">${lastMsg.text}</div>
+      </div>
+
+      ${q.escalated ? `
+        <div class="ap-reason">
+          <strong>⚠ Escalated to Dr. Farah:</strong> Clinical question detected — post-treatment symptoms require professional assessment. Seri sent a warm handoff and is paused on this thread.
+        </div>
+      ` : ''}
+
+      <div class="ap-draft">
+        <div class="ap-draft-head">
+          <div class="ap-draft-label">Seri drafted</div>
+          <div class="conf-badge ${q.confidence === 'high' ? 'conf-high' : 'conf-low'}">
+            ${q.confidence === 'high' ? '● Confident' : '● Low confidence'}
+          </div>
+          <div class="ap-draft-regen" onclick="regenerateDraft('${q.id}')" id="regen-btn">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>
+            Regenerate
+          </div>
+        </div>
+        <div class="ap-draft-text" id="draft-text">${q.draft}</div>
+      </div>
+
+      ${history.length > 0 ? `
+        <div class="ap-history-toggle" onclick="this.classList.toggle('open');document.getElementById('hist').classList.toggle('hidden')">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+          View conversation history (${history.length})
+        </div>
+        <div class="ap-history hidden" id="hist">
+          ${history.map(m => `
+            <div class="hist-msg">
+              <div class="hist-who ${m.from === 'them' ? 'them' : ''}">${m.from === 'them' ? c.name.split(' ')[0] : 'Seri'}</div>
+              <div class="hist-text">${m.text}</div>
+              <div class="hist-time">${m.time}</div>
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
+    </div>
+
+    <div class="ap-actions">
+      <button class="btn btn-red" onclick="rejectDraft()">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        Reject
+      </button>
+      <button class="btn btn-outline" onclick="editDraft()">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        Edit
+      </button>
+      <button class="btn btn-indigo" onclick="approveSend('${q.id}')">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+        Approve & Send
+      </button>
+    </div>`;
+}
+
+/* ─── INBOX ACTIONS ─── */
+function rejectDraft(){ toast('Draft rejected', 'x'); removeFromQueue(ui.activeQ); }
+function editDraft(){
+  const el = document.getElementById('draft-text');
+  const current = el.textContent;
+  const edited = prompt('Edit draft:', current);
+  if(edited !== null){
+    const q = state.queue.find(x => x.id === ui.activeQ);
+    q.draft = edited;
+    save();
+    renderApprove();
+    toast('Draft updated', '✓');
+  }
+}
+function approveSend(id){
+  toast('Sent to WhatsApp ✓', '✓');
+  removeFromQueue(id);
+}
+function removeFromQueue(id){
+  state.queue = state.queue.filter(q => q.id !== id);
+  if(state.queue.length > 0) ui.activeQ = state.queue[0].id;
+  else ui.activeQ = null;
+  save();
+  renderQueue();
+  renderApprove();
+}
+
+async function regenerateDraft(id){
+  const q = state.queue.find(x => x.id === id);
+  if(!q) return;
+  const btn = document.getElementById('regen-btn');
+  btn.classList.add('loading');
+  const txtEl = document.getElementById('draft-text');
+  const original = txtEl.textContent;
+  txtEl.textContent = 'Seri is drafting...';
+  txtEl.style.opacity = '0.6';
+  try {
+    const c = getContact(q.contactId);
+    const ctx = c.visits > 0
+      ? `This is a returning patient. Last visit: ${c.lastVisit}, last treatment: ${c.lastTreatment}, total visits: ${c.visits}, tags: ${c.tags.join(', ')}.`
+      : `This is a new patient. First time contacting the clinic.`;
+    const msgs = [
+      { role:'user', content: `PATIENT CONTEXT: ${ctx}\n\nPATIENT MESSAGE: ${q.messages[q.messages.length-1].text}\n\nDraft a reply as Seri.` }
+    ];
+    const reply = await ai.draft(msgs);
+    q.draft = reply;
+    q.confidence = 'high';
+    save();
+    renderApprove();
+    toast('Regenerated by DeepSeek', '✓');
+  } catch(e){
+    txtEl.textContent = original;
+    txtEl.style.opacity = '1';
+    btn.classList.remove('loading');
+    toast('DeepSeek error — ' + e.message.slice(0,60), 'x');
+  }
+}
+
+function setQueueFilter(f){
+  ui.queueFilter = f;
+  document.querySelectorAll('.queue-filter button').forEach(b => {
+    b.classList.toggle('on', b.dataset.filter === f);
+  });
+  renderQueue();
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RENDER — APPOINTMENTS
+   ═══════════════════════════════════════════════════════════ */
+function renderAppointments(){
+  const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const nums = [6,7,8,9,10,11,12];
+  const counts = [5,8,7,9,6,8,4];
+  document.getElementById('week-strip').innerHTML = days.map((d,i) => `
+    <div class="week-day ${i === 1 ? 'on' : ''}">
+      <div class="week-day-name">${d}</div>
+      <div class="week-day-num">${nums[i]}</div>
+      <div class="week-day-count">${counts[i]} appts</div>
+    </div>
+  `).join('');
+
+  document.getElementById('appt-tbody').innerHTML = state.appointments.map(a => {
+    const riskClass = a.risk >= 65 ? 'high' : a.risk >= 35 ? 'med' : 'low';
+    const riskLabel = a.risk >= 65 ? 'high' : a.risk >= 35 ? 'med' : 'low';
+    const statusTag = a.status === 'Confirmed' ? 'tag-green' : 'tag-amber';
+    return `
+      <tr>
+        <td class="cell-time">${a.time}</td>
+        <td class="cell-name">${a.patient}</td>
+        <td>${a.treatment}</td>
+        <td>${a.doctor}</td>
+        <td><span class="tag ${statusTag}">${a.status}</span></td>
+        <td>
+          <div class="risk-bar">
+            <div class="risk-track"><div class="risk-fill ${riskClass}" style="width:${a.risk}%"></div></div>
+            <div class="risk-val ${riskLabel}">${a.risk}%</div>
+          </div>
+        </td>
+        <td style="color:var(--text-muted)">${a.reminder}</td>
+      </tr>`;
+  }).join('');
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RENDER — CONTACTS
+   ═══════════════════════════════════════════════════════════ */
+function renderContacts(){
+  const sorted = [...state.contacts].sort((a,b) => b.lapseRisk - a.lapseRisk);
+  document.getElementById('contact-grid').innerHTML = sorted.map(c => {
+    const riskColor = c.lapseRisk >= 70 ? 'var(--red)' : c.lapseRisk >= 40 ? 'var(--amber)' : 'var(--green)';
+    const tagMap = {'returning':'tag-blue','VIP':'tag-violet','lapsed':'tag-amber','new inquiry':'tag-teal','hot lead':'tag-green'};
+    return `
+      <div class="contact-card">
+        <div class="cc-head">
+          <div class="avatar ${c.av}" style="width:44px;height:44px;font-size:13px">${c.initials}</div>
+          <div style="flex:1;min-width:0">
+            <div class="cc-name">${c.name}</div>
+            <div class="cc-sub">${c.lastTreatment} · ${c.lastVisit}</div>
+            <div class="cc-tags">
+              ${c.tags.map(t => `<span class="tag ${tagMap[t] || 'tag-neutral'}">${t}</span>`).join('')}
+            </div>
+          </div>
+        </div>
+        <div class="cc-stats">
+          <div>
+            <div class="cc-stat-label">Visits</div>
+            <div class="cc-stat-val">${c.visits}</div>
+          </div>
+          <div>
+            <div class="cc-stat-label">Lifetime</div>
+            <div class="cc-stat-val">RM ${c.spend.toLocaleString()}</div>
+          </div>
+        </div>
+        <div class="cc-lapse">
+          <div class="cc-lapse-row">
+            <span>Lapse risk</span>
+            <span style="color:${riskColor}">${c.lapseRisk}%</span>
+          </div>
+          <div class="cc-lapse-track">
+            <div class="cc-lapse-fill" style="width:${c.lapseRisk}%;background:${riskColor}"></div>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RENDER — FOLLOW-UP
+   ═══════════════════════════════════════════════════════════ */
+function renderFollowUp(){
+  const list = ui.fuTab === 'lapsed' ? state.followup.lapsed : state.followup.upsell;
+  document.getElementById('fu-list').innerHTML = list.map(f => `
+    <div class="fu-item">
+      <div class="avatar ${f.av}" style="width:40px;height:40px;font-size:12px">${f.initials}</div>
+      <div class="fu-main">
+        <div class="fu-top">
+          <div class="fu-name">${f.name}</div>
+          <span class="tag ${ui.fuTab === 'lapsed' ? 'tag-amber' : 'tag-violet'}">${ui.fuTab === 'lapsed' ? 'Lapsed' : 'Upsell'}</span>
+        </div>
+        <div class="fu-reason">${ui.fuTab === 'lapsed' ? `<strong>${f.reason}</strong> · Last: ${f.lastTreatment}` : `${f.reason} · Suggested: <strong style="color:var(--violet)">${f.suggested}</strong>`}</div>
+        <div class="fu-preview">${f.preview}</div>
+        <div class="fu-actions">
+          <button class="btn btn-indigo btn-sm">Send now</button>
+          <button class="btn btn-outline btn-sm">Edit</button>
+          <button class="btn btn-ghost btn-sm">Skip</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RENDER — ANALYTICS
+   ═══════════════════════════════════════════════════════════ */
+function renderAnalytics(){
+  const bars = document.getElementById('bars-daily');
+  if(!bars) return;
+  const data = [{d:'Mon',v:148},{d:'Tue',v:192},{d:'Wed',v:165},{d:'Thu',v:224},{d:'Fri',v:258},{d:'Sat',v:186},{d:'Sun',v:112}];
+  const max = Math.max(...data.map(x => x.v));
+  bars.innerHTML = data.map(x => `
+    <div class="bar-col">
+      <div style="flex:1;display:flex;align-items:flex-end;width:100%;justify-content:center">
+        <div class="bar" style="height:${(x.v/max)*100}%;width:70%;max-width:34px"></div>
+      </div>
+      <div class="bar-label">${x.d}</div>
+    </div>
+  `).join('');
+
+  const heat = document.getElementById('heatmap');
+  const rows = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const hours = ['8','9','10','11','12','1','2','3','4','5','6','7'];
+  let html = '<div></div>' + hours.map(h => `<div class="heat-hdr">${h}</div>`).join('');
+  rows.forEach(r => {
+    html += `<div class="heat-label">${r}</div>`;
+    for(let i=0;i<12;i++){
+      const intensity = Math.random();
+      const alpha = 0.1 + intensity * 0.75;
+      html += `<div class="heat-cell" style="background:rgba(61,58,122,${alpha.toFixed(2)})"></div>`;
+    }
+  });
+  heat.innerHTML = html;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RENDER — KNOWLEDGE BASE
+   ═══════════════════════════════════════════════════════════ */
+function renderKB(){
+  const section = ui.kbSection;
+  const editor = document.getElementById('kb-editor');
+  const kb = state.kb;
+
+  document.querySelectorAll('.kb-nav-item').forEach(i => i.classList.toggle('on', i.dataset.kb === section));
+
+  if(section === 'general'){
+    editor.innerHTML = `
+      <div class="kb-section-title">General Information</div>
+      <div class="kb-section-sub">Core clinic details Seri uses in every conversation.</div>
+      <div class="kb-field">
+        <label class="kb-field-label">Clinic name</label>
+        <input class="kb-input" value="${kb.general.name}" onchange="state.kb.general.name=this.value;save()" />
+      </div>
+      <div class="kb-field">
+        <label class="kb-field-label">Tagline <small>(used in intros)</small></label>
+        <input class="kb-input" value="${kb.general.tagline}" onchange="state.kb.general.tagline=this.value;save()" />
+      </div>
+      <div class="kb-field">
+        <label class="kb-field-label">Description <small>(Seri reads this to understand your clinic)</small></label>
+        <textarea class="kb-textarea" onchange="state.kb.general.description=this.value;save()">${kb.general.description}</textarea>
+      </div>
+      <div class="kb-row">
+        <div class="kb-field">
+          <label class="kb-field-label">Phone</label>
+          <input class="kb-input" value="${kb.general.phone}" onchange="state.kb.general.phone=this.value;save()" />
+        </div>
+        <div class="kb-field">
+          <label class="kb-field-label">Email</label>
+          <input class="kb-input" value="${kb.general.email}" onchange="state.kb.general.email=this.value;save()" />
+        </div>
+      </div>
+      <div class="kb-field">
+        <label class="kb-field-label">Address</label>
+        <input class="kb-input" value="${kb.general.address}" onchange="state.kb.general.address=this.value;save()" />
+      </div>
+    `;
+  } else if(section === 'services'){
+    editor.innerHTML = `
+      <div class="kb-section-title">Services & Prices</div>
+      <div class="kb-section-sub">Seri only quotes prices from this list. Changes go live instantly.</div>
+      ${kb.services.map((s,i) => `
+        <div class="kb-list-item">
+          <div class="kb-list-main">
+            <div class="kb-row-3">
+              <input class="kb-input" value="${s.name}" onchange="state.kb.services[${i}].name=this.value;save()" />
+              <input class="kb-input" value="${s.price}" onchange="state.kb.services[${i}].price=this.value;save()" />
+              <input class="kb-input" value="${s.duration}" onchange="state.kb.services[${i}].duration=this.value;save()" />
+            </div>
+            <input class="kb-input" style="margin-top:8px" value="${s.desc}" onchange="state.kb.services[${i}].desc=this.value;save()" />
+          </div>
+          <div class="kb-list-del" onclick="delService(${i})">✕</div>
+        </div>
+      `).join('')}
+      <button class="kb-add-btn" onclick="addService()">+ Add service</button>
+    `;
+  } else if(section === 'schedule'){
+    editor.innerHTML = `
+      <div class="kb-section-title">Doctor & Staff Schedule</div>
+      <div class="kb-section-sub">Seri checks availability against this schedule when booking.</div>
+      ${kb.schedule.map((s,i) => `
+        <div class="kb-list-item">
+          <div class="kb-list-main">
+            <div class="kb-list-title">${s.name}</div>
+            <div class="kb-list-sub">${s.role} · ${s.days} · ${s.hours}</div>
+          </div>
+          <div class="kb-list-del">✕</div>
+        </div>
+      `).join('')}
+      <button class="kb-add-btn">+ Add doctor or staff</button>
+    `;
+  } else if(section === 'hours'){
+    editor.innerHTML = `
+      <div class="kb-section-title">Opening Hours</div>
+      <div class="kb-section-sub">When Seri answers "are you open?"</div>
+      ${kb.hours.map((h,i) => `
+        <div class="kb-list-item">
+          <div class="kb-list-main" style="display:flex;align-items:center;gap:16px">
+            <div style="font-weight:700;width:90px">${h.day}</div>
+            <div style="color:${h.closed ? 'var(--text-muted)' : 'var(--text)'}">${h.closed ? 'Closed' : h.open + ' – ' + h.close}</div>
+          </div>
+        </div>
+      `).join('')}
+    `;
+  } else if(section === 'faqs'){
+    editor.innerHTML = `
+      <div class="kb-section-title">Frequently Asked Questions</div>
+      <div class="kb-section-sub">Seri answers from this list first. Everything not here triggers fallback or escalation.</div>
+      ${kb.faqs.map((f,i) => `
+        <div class="kb-list-item">
+          <div class="kb-list-main">
+            <input class="kb-input" value="${f.q}" style="font-weight:600;margin-bottom:6px" onchange="state.kb.faqs[${i}].q=this.value;save()" />
+            <textarea class="kb-textarea" style="min-height:56px" onchange="state.kb.faqs[${i}].a=this.value;save()">${f.a}</textarea>
+          </div>
+          <div class="kb-list-del" onclick="delFaq(${i})">✕</div>
+        </div>
+      `).join('')}
+      <button class="kb-add-btn" onclick="addFaq()">+ Add FAQ</button>
+    `;
+  } else if(section === 'promos'){
+    editor.innerHTML = `
+      <div class="kb-section-title">Active Promotions</div>
+      <div class="kb-section-sub">Seri mentions these naturally in relevant conversations.</div>
+      ${kb.promos.map((p,i) => `
+        <div class="kb-list-item">
+          <div class="kb-list-main">
+            <input class="kb-input" value="${p.title}" style="font-weight:700;margin-bottom:6px" onchange="state.kb.promos[${i}].title=this.value;save()" />
+            <input class="kb-input" value="${p.desc}" style="margin-bottom:6px" onchange="state.kb.promos[${i}].desc=this.value;save()" />
+            <input class="kb-input" value="Expires: ${p.expiry}" onchange="state.kb.promos[${i}].expiry=this.value.replace('Expires: ','');save()" />
+          </div>
+          <div class="kb-list-del" onclick="delPromo(${i})">✕</div>
+        </div>
+      `).join('')}
+      <button class="kb-add-btn" onclick="addPromo()">+ Add promotion</button>
+    `;
+  } else if(section === 'persona'){
+    editor.innerHTML = `
+      <div class="kb-section-title">Tone & Persona</div>
+      <div class="kb-section-sub">How Seri sounds to your patients. This shapes every reply.</div>
+      <div class="kb-field">
+        <label class="kb-field-label">AI Name</label>
+        <input class="kb-input" value="${kb.persona.name}" onchange="state.kb.persona.name=this.value;save()" />
+      </div>
+      <div class="kb-field">
+        <label class="kb-field-label">Tone</label>
+        <select class="kb-select" onchange="state.kb.persona.tone=this.value;save()">
+          <option value="formal" ${kb.persona.tone==='formal'?'selected':''}>Formal — professional, structured</option>
+          <option value="friendly" ${kb.persona.tone==='friendly'?'selected':''}>Friendly — warm but professional</option>
+          <option value="warm" ${kb.persona.tone==='warm'?'selected':''}>Warm & Casual — like a real person (recommended)</option>
+        </select>
+      </div>
+      <div class="kb-field">
+        <label class="kb-field-label">Intro message <small>(first thing Seri says)</small></label>
+        <textarea class="kb-textarea" onchange="state.kb.persona.intro=this.value;save()">${kb.persona.intro}</textarea>
+      </div>
+      <div class="kb-field">
+        <label class="kb-field-label">Language mode</label>
+        <select class="kb-select" onchange="state.kb.persona.language=this.value;save()">
+          <option value="auto" ${kb.persona.language==='auto'?'selected':''}>Auto-detect (recommended)</option>
+          <option value="bahasa">Bahasa Melayu only</option>
+          <option value="english">English only</option>
+        </select>
+      </div>
+    `;
+  }
+}
+
+function delService(i){ state.kb.services.splice(i,1); save(); renderKB(); }
+function addService(){ state.kb.services.push({name:'New service',price:'RM 0',duration:'30 min',desc:''}); save(); renderKB(); }
+function delFaq(i){ state.kb.faqs.splice(i,1); save(); renderKB(); }
+function addFaq(){ state.kb.faqs.push({q:'New question',a:'Answer here'}); save(); renderKB(); }
+function delPromo(i){ state.kb.promos.splice(i,1); save(); renderKB(); }
+function addPromo(){ state.kb.promos.push({title:'New promo',desc:'',expiry:'—'}); save(); renderKB(); }
+
+/* ─── KB TEST CHAT ─── */
+let kbHistory = [];
+async function kbTestSend(){
+  const input = document.getElementById('kb-test-input');
+  const text = input.value.trim();
+  if(!text) return;
+  input.value = '';
+  const log = document.getElementById('kb-test-log');
+
+  log.insertAdjacentHTML('beforeend', `<div class="kb-msg user">${escapeHTML(text)}</div>`);
+  log.insertAdjacentHTML('beforeend', `<div class="kb-msg ai loading" id="kb-loading">Seri is typing...</div>`);
+  log.scrollTop = log.scrollHeight;
+
+  kbHistory.push({ role:'user', content: text });
+
+  try {
+    const reply = await ai.draft(kbHistory);
+    kbHistory.push({ role:'assistant', content: reply });
+    document.getElementById('kb-loading').remove();
+    log.insertAdjacentHTML('beforeend', `<div class="kb-msg ai">${escapeHTML(reply)}</div>`);
+    log.scrollTop = log.scrollHeight;
+  } catch(e){
+    document.getElementById('kb-loading').remove();
+    log.insertAdjacentHTML('beforeend', `<div class="kb-msg ai" style="color:var(--red)">Error: ${e.message.slice(0,120)}</div>`);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SIM — simulate incoming customer message
+   ═══════════════════════════════════════════════════════════ */
+function renderSim(){
+  const row = document.getElementById('sim-cust-row');
+  row.innerHTML = SIM_CUSTOMERS.map((c,i) => `
+    <div class="sim-cust ${ui.simCust === i ? 'on' : ''}" onclick="setSimCust(${i})">
+      <div class="sim-cust-name">${c.name}</div>
+      <div class="sim-cust-sub">${c.sub}</div>
+    </div>
+  `).join('');
+  document.getElementById('sim-input').placeholder = SIM_CUSTOMERS[ui.simCust].placeholder;
+}
+function setSimCust(i){
+  ui.simCust = i;
+  renderSim();
+}
+function toggleSim(){
+  document.getElementById('demo-sim').classList.toggle('collapsed');
+  const chev = document.getElementById('sim-chev');
+  chev.textContent = document.getElementById('demo-sim').classList.contains('collapsed') ? '▴' : '▾';
+}
+async function sendSimMessage(){
+  const input = document.getElementById('sim-input');
+  const text = input.value.trim();
+  if(!text) return;
+  const btn = document.getElementById('sim-send');
+  btn.disabled = true;
+  btn.textContent = 'Seri is drafting...';
+
+  const cust = SIM_CUSTOMERS[ui.simCust];
+  const contact = getContact(cust.id);
+
+  // Create queue item
+  const qid = 'sim_' + Date.now();
+  const newQ = {
+    id: qid,
+    contactId: cust.id,
+    type: contact.visits > 0 ? 'returning' : 'new',
+    time: 'just now',
+    unread: true,
+    lang: contact.lang,
+    messages: [{ from:'them', text, time:'just now' }],
+    draft: '...',
+    confidence: 'high',
+    tag: contact.visits > 0 ? 'returning' : (contact.tags.includes('hot lead') ? 'hot lead' : 'new')
+  };
+  state.queue.unshift(newQ);
+  ui.activeQ = qid;
+  save();
+
+  // Switch to Inbox
+  showScreen('inbox');
+
+  // Draft via DeepSeek
+  try {
+    const ctx = contact.visits > 0
+      ? `This is a returning patient. Last visit: ${contact.lastVisit}, last treatment: ${contact.lastTreatment}, total visits: ${contact.visits}, tags: ${contact.tags.join(', ')}.`
+      : `This is a new patient. First time contacting the clinic.`;
+    const reply = await ai.draft([
+      { role:'user', content:`PATIENT CONTEXT: ${ctx}\n\nPATIENT MESSAGE: ${text}\n\nDraft a reply as Seri.` }
+    ]);
+    newQ.draft = reply;
+    save();
+    renderQueue();
+    renderApprove();
+    toast('New message drafted by Seri', '✓');
+  } catch(e){
+    newQ.draft = '[DeepSeek error — ' + e.message.slice(0,80) + ']';
+    newQ.confidence = 'low';
+    save();
+    renderQueue();
+    renderApprove();
+  } finally {
+    input.value = '';
+    btn.disabled = false;
+    btn.textContent = 'Send as customer →';
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SETTINGS
+   ═══════════════════════════════════════════════════════════ */
+function renderSettings(){
+  document.getElementById('set-deepseek-key').value = state.settings.deepseekKey || '';
+  document.querySelectorAll('.set-mode').forEach(m => m.classList.toggle('on', m.dataset.mode === state.settings.mode));
+  renderSidebarMode();
+}
+function saveDeepSeekKey(){
+  const val = document.getElementById('set-deepseek-key').value.trim();
+  state.settings.deepseekKey = val;
+  save();
+  toast('API key saved', '✓');
+}
+function setMode(mode){
+  state.settings.mode = mode;
+  save();
+  renderSettings();
+}
+function renderSidebarMode(){
+  const labels = { auto:'Full Auto', approval:'Approval', pause:'Paused' };
+  const colors = { auto:'', approval:'amber', pause:'grey' };
+  document.getElementById('sb-mode-label').textContent = labels[state.settings.mode];
+  const dot = document.getElementById('sb-mode-dot');
+  dot.className = 'mode-dot ' + colors[state.settings.mode];
+}
+
+/* ═══════════════════════════════════════════════════════════
+   NAVIGATION
+   ═══════════════════════════════════════════════════════════ */
+function showScreen(name){
+  ui.screen = name;
+  document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+  document.getElementById('screen-' + name).classList.remove('hidden');
+  document.querySelectorAll('.nav-item[data-screen]').forEach(n => {
+    n.classList.toggle('active', n.dataset.screen === name);
+  });
+  if(name === 'inbox'){ renderQueue(); renderApprove(); }
+  if(name === 'appointments') renderAppointments();
+  if(name === 'contacts') renderContacts();
+  if(name === 'followup') renderFollowUp();
+  if(name === 'analytics') renderAnalytics();
+  if(name === 'knowledge') renderKB();
+  if(name === 'settings') renderSettings();
+}
+
+/* ═══════════════════════════════════════════════════════════
+   UTILITIES
+   ═══════════════════════════════════════════════════════════ */
+function escapeHTML(s){
+  return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+let toastTimer;
+function toast(msg, icon){
+  const el = document.getElementById('toast');
+  const iconSvg = icon === '✓'
+    ? '<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>'
+    : icon === 'x' ? '<svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>' : '';
+  el.innerHTML = iconSvg + ' ' + msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2400);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   INIT
+   ═══════════════════════════════════════════════════════════ */
+function init(){
+  // Nav clicks
+  document.querySelectorAll('.nav-item[data-screen]').forEach(n => {
+    n.onclick = () => showScreen(n.dataset.screen);
+  });
+  // Queue filters
+  document.querySelectorAll('.queue-filter button[data-filter]').forEach(b => {
+    b.onclick = () => setQueueFilter(b.dataset.filter);
+  });
+  // KB nav
+  document.querySelectorAll('.kb-nav-item').forEach(i => {
+    i.onclick = () => { ui.kbSection = i.dataset.kb; renderKB(); };
+  });
+  // KB test chat
+  document.getElementById('kb-test-send').onclick = kbTestSend;
+  document.getElementById('kb-test-input').addEventListener('keydown', e => {
+    if(e.key === 'Enter'){ e.preventDefault(); kbTestSend(); }
+  });
+  // Follow-up tabs
+  document.querySelectorAll('[data-fu-tab]').forEach(t => {
+    t.onclick = () => {
+      ui.fuTab = t.dataset.fuTab;
+      document.querySelectorAll('[data-fu-tab]').forEach(x => x.classList.toggle('active', x === t));
+      renderFollowUp();
+    };
+  });
+  // Settings modes
+  document.querySelectorAll('.set-mode[data-mode]').forEach(m => {
+    m.onclick = () => setMode(m.dataset.mode);
+  });
+  // Sim
+  renderSim();
+  document.getElementById('sim-input').addEventListener('keydown', e => {
+    if(e.key === 'Enter' && (e.ctrlKey || e.metaKey)){ e.preventDefault(); sendSimMessage(); }
+  });
+
+  renderSidebarMode();
+  showScreen('inbox');
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

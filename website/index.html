@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>eight.ai — WhatsApp AI for Aesthetic Clinics</title>
+<link rel="icon" type="image/jpeg" href="/favicon-256.jpg">
+<link rel="apple-touch-icon" href="/favicon-256.jpg">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #F5F5F5; --surface: #FFFFFF; --border: #E8E8E8; --border-light: #F0F0F0;
+    --text-primary: #1A1A1A; --text-secondary: #6B6B6B; --text-muted: #A0A0A0;
+    --indigo: #4F46E5; --indigo-light: #EEF2FF;
+    --green: #16A34A; --green-bg: #F0FFF4; --green-border: #BBF7D0;
+    --amber: #D97706; --amber-bg: #FFF8E6;
+    --red: #E53E3E; --red-bg: #FFF0F0;
+    --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px; --radius-xl: 16px; --radius-full: 9999px;
+    --shadow-card: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-hover: 0 4px 12px rgba(0,0,0,0.08);
+    --shadow-lift: 0 20px 60px rgba(0,0,0,0.10);
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text-primary); font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+  /* NAV */
+  nav { position: sticky; top: 0; z-index: 200; background: rgba(255,255,255,0.93); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 40px; height: 56px; display: flex; align-items: center; gap: 32px; }
+  .nav-logo { font-size: 18px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.02em; text-decoration: none; flex-shrink: 0; }
+  .nav-logo span { color: var(--indigo); }
+  .nav-links { display: flex; gap: 4px; list-style: none; }
+  .nav-links a { font-size: 13px; font-weight: 500; color: var(--text-secondary); text-decoration: none; padding: 6px 12px; border-radius: var(--radius-md); transition: all 0.15s; }
+  .nav-links a:hover { background: #F3F4F6; color: var(--text-primary); }
+  .nav-spacer { flex: 1; }
+  .btn-nav { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; color: white; background: var(--text-primary); border: none; padding: 7px 16px; border-radius: var(--radius-md); cursor: pointer; text-decoration: none; white-space: nowrap; }
+  .btn-nav:hover { background: #333; }
+
+  /* LAYOUT */
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+  section { padding: 80px 0; }
+  .section-label { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--indigo); background: var(--indigo-light); padding: 4px 10px; border-radius: var(--radius-full); margin-bottom: 16px; }
+  h2 { font-size: clamp(26px, 3vw, 38px); font-weight: 700; letter-spacing: -0.025em; margin-bottom: 12px; line-height: 1.15; }
+  .section-sub { font-size: 16px; color: var(--text-secondary); margin-bottom: 48px; max-width: 520px; line-height: 1.65; }
+
+  /* HERO */
+  .hero { padding: 72px 0 64px; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; color: var(--green); background: var(--green-bg); border: 1px solid var(--green-border); padding: 4px 12px; border-radius: var(--radius-full); margin-bottom: 24px; }
+  .hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+  h1 { font-size: clamp(32px, 4vw, 50px); font-weight: 700; line-height: 1.12; letter-spacing: -0.03em; margin-bottom: 20px; }
+  h1 em { font-style: normal; color: var(--indigo); }
+  .hero-sub { font-size: 16px; line-height: 1.7; color: var(--text-secondary); margin-bottom: 32px; max-width: 440px; }
+  .hero-ctas { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 20px; }
+  .btn-primary { font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600; color: white; background: var(--green); border: none; padding: 12px 24px; border-radius: var(--radius-md); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: all 0.15s; }
+  .btn-primary:hover { background: #15803D; transform: translateY(-1px); }
+  .btn-secondary { font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; color: var(--text-secondary); background: white; border: 1px solid var(--border); padding: 11px 20px; border-radius: var(--radius-md); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: all 0.15s; }
+  .btn-secondary:hover { background: #F9FAFB; color: var(--text-primary); }
+  .hero-micro { font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .hero-micro span { display: flex; align-items: center; gap: 4px; }
+  .hero-stats { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+  .stat-chip { background: white; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 8px 14px; font-size: 12px; box-shadow: var(--shadow-card); }
+  .stat-chip strong { font-size: 15px; font-weight: 700; color: var(--text-primary); display: block; }
+  .stat-chip span { color: var(--text-muted); }
+
+  /* HERO APP FRAME */
+  .app-frame { background: white; border: 1px solid var(--border); border-radius: var(--radius-xl); box-shadow: var(--shadow-lift); overflow: hidden; animation: floatCard 5s ease-in-out infinite; }
+  @keyframes floatCard { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+  .frame-bar { background: #FAFAFA; border-bottom: 1px solid var(--border); padding: 10px 16px; display: flex; align-items: center; gap: 6px; }
+  .fdot { width: 9px; height: 9px; border-radius: 50%; }
+  .frame-title { font-size: 11px; color: var(--text-muted); margin-left: 6px; font-weight: 500; }
+
+  /* MINI APP UI (hero) */
+  .mini-queue-hdr { padding: 9px 14px; border-bottom: 1px solid var(--border); background: #FAFAFA; display: flex; align-items: center; justify-content: space-between; }
+  .mini-queue-title { font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+  .mini-count { background: var(--text-primary); color: white; font-size: 10px; padding: 1px 7px; border-radius: var(--radius-full); font-weight: 600; }
+  .mini-layout { display: flex; height: 310px; }
+  .mini-qlist { width: 140px; border-right: 1px solid var(--border); flex-shrink: 0; }
+  .mqi { padding: 9px 12px; border-bottom: 1px solid var(--border-light); }
+  .mqi.active { background: #F3F4F6; border-left: 2px solid var(--text-primary); }
+  .mqi-name { font-size: 11px; font-weight: 600; color: var(--text-primary); margin-bottom: 2px; }
+  .mqi-preview { font-size: 10px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mbadge { font-size: 9px; font-weight: 600; padding: 1px 5px; border-radius: 2px; display: inline-block; margin-bottom: 3px; }
+  .mini-panel { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+  .mini-ph { padding: 9px 12px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 7px; }
+  .mav { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 600; color: white; flex-shrink: 0; }
+  .mpname { font-size: 11px; font-weight: 600; }
+  .mpmeta { font-size: 9px; color: var(--text-muted); }
+  .mini-body { flex: 1; padding: 10px; background: #EBEBEB; display: flex; flex-direction: column; gap: 7px; overflow: hidden; }
+  .mmsg { background: white; border: 1px solid var(--border); border-radius: 7px; padding: 9px 11px; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+  .mdraft { background: white; border: 1px solid #C7D2FE; border-left: 3px solid var(--indigo); border-radius: 7px; padding: 9px 11px; }
+  .mlabel { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 4px; }
+  .mdlabel { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--indigo); margin-bottom: 4px; display: flex; align-items: center; justify-content: space-between; }
+  .mconfident { font-size: 9px; font-weight: 600; color: var(--green); background: var(--green-bg); padding: 1px 6px; border-radius: var(--radius-full); }
+  .mtext { font-size: 10px; color: var(--text-primary); line-height: 1.5; }
+  .mini-footer { padding: 9px 12px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 5px; background: white; }
+  .mbtn-app { flex: 1; padding: 7px; background: var(--green); color: white; border: none; border-radius: var(--radius-md); font-family: 'DM Sans',sans-serif; font-size: 10px; font-weight: 700; cursor: pointer; transition: background 0.15s; }
+  .mbtn-app:hover { background: #15803D; }
+  .mbtn-sm { padding: 7px 9px; background: white; color: var(--text-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); font-family: 'DM Sans',sans-serif; font-size: 10px; cursor: pointer; }
+  .mbtn-rej { padding: 7px 9px; background: var(--red-bg); color: var(--red); border: 1px solid #FECACA; border-radius: var(--radius-md); font-family: 'DM Sans',sans-serif; font-size: 10px; cursor: pointer; }
+
+  /* PAIN */
+  .pain-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+  .pain-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 18px 20px; box-shadow: var(--shadow-card); display: flex; gap: 14px; align-items: flex-start; transition: box-shadow 0.15s; }
+  .pain-card:hover { box-shadow: var(--shadow-hover); }
+  .pain-icon { width: 34px; height: 34px; border-radius: var(--radius-md); background: var(--red-bg); display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+  .pain-card p { font-size: 13px; color: var(--text-secondary); line-height: 1.65; font-style: italic; }
+
+  /* HOW IT WORKS */
+  .steps-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+  .step-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 24px; box-shadow: var(--shadow-card); }
+  .step-num { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 10px; }
+  .step-icon { width: 40px; height: 40px; border-radius: var(--radius-lg); margin-bottom: 14px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+  .step-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+  .step-card p { font-size: 13px; color: var(--text-secondary); line-height: 1.65; }
+  .fear-handler { background: var(--amber-bg); border: 1px solid #FDE68A; border-radius: var(--radius-lg); padding: 16px 20px; display: flex; align-items: flex-start; gap: 10px; }
+  .fear-handler p { font-size: 13px; color: #92400E; line-height: 1.65; }
+
+  /* FEATURE CAROUSEL */
+  .carousel-wrap { background: white; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 80px 0; }
+  .ftabs { display: flex; gap: 8px; margin-bottom: 32px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 2px; }
+  .ftabs::-webkit-scrollbar { display: none; }
+  .ftab { padding: 8px 18px; border-radius: var(--radius-full); border: 1px solid var(--border); background: #F9FAFB; font-size: 13px; font-weight: 500; color: var(--text-secondary); cursor: pointer; white-space: nowrap; transition: all 0.15s; display: flex; align-items: center; gap: 6px; flex-shrink: 0; font-family: 'DM Sans',sans-serif; }
+  .ftab:hover { border-color: #D1D5DB; color: var(--text-primary); }
+  .ftab.active { background: var(--text-primary); color: white; border-color: var(--text-primary); font-weight: 600; }
+  .fslide { display: none; animation: slideFade 0.25s ease; }
+  .fslide.active { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+  @keyframes slideFade { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+
+  /* CAROUSEL CONTROLS */
+  .carousel-controls { display: flex; align-items: center; justify-content: space-between; margin-top: 32px; }
+  .carousel-arrows { display: flex; gap: 8px; }
+  .carr-btn { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border); background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); transition: all 0.15s; box-shadow: var(--shadow-card); }
+  .carr-btn:hover { background: var(--text-primary); color: white; border-color: var(--text-primary); }
+  .carr-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .carr-btn:disabled:hover { background: white; color: var(--text-secondary); border-color: var(--border); }
+  .carousel-dots { display: flex; align-items: center; gap: 6px; }
+  .cdot { width: 7px; height: 7px; border-radius: 50%; background: var(--border); cursor: pointer; transition: all 0.2s; }
+  .cdot.active { background: var(--text-primary); width: 22px; border-radius: 4px; }
+  .carr-hint { font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 5px; }
+  .carr-hint svg { flex-shrink: 0; }
+  .fcopy h3 { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 12px; line-height: 1.2; }
+  .fcopy p { font-size: 15px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 20px; }
+  .fpoints { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .fpoints li { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; color: var(--text-secondary); line-height: 1.55; }
+  .fpoints .ck { color: var(--green); font-weight: 700; flex-shrink: 0; }
+
+  /* App screenshot wrapper */
+  .ashot { background: white; border: 1px solid var(--border); border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-lift); }
+  .ashot-bar { background: #FAFAFA; border-bottom: 1px solid var(--border); padding: 10px 16px; display: flex; align-items: center; gap: 6px; }
+
+  /* SHARED APP SCREEN PRIMITIVES */
+  .app-scr { font-family: 'DM Sans', sans-serif; }
+  .sp-hdr { padding: 12px 18px 8px; }
+  .sp-title { font-size: 16px; font-weight: 700; color: var(--text-primary); }
+  .stabs { display: flex; border-bottom: 1px solid var(--border); padding: 0 18px; }
+  .stab { padding: 7px 11px; font-size: 11px; font-weight: 500; color: var(--text-muted); border-bottom: 2px solid transparent; margin-bottom: -1px; }
+  .stab.on { color: var(--text-primary); border-bottom-color: var(--text-primary); font-weight: 600; }
+  .sbadge { font-size: 9px; font-weight: 600; padding: 2px 6px; border-radius: 2px; display: inline-block; }
+  .sav { border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; color: white; flex-shrink: 0; }
+
+  /* INBOX screen */
+  .si-layout { display: flex; height: 336px; }
+  .si-q { width: 156px; border-right: 1px solid var(--border); flex-shrink: 0; }
+  .si-qh { padding: 8px 12px; background: #FAFAFA; border-bottom: 1px solid var(--border); font-size: 9px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+  .si-qi { padding: 9px 11px; border-bottom: 1px solid var(--border-light); }
+  .si-qi.on { background: #F3F4F6; border-left: 2px solid var(--text-primary); }
+  .si-qname { font-size: 11px; font-weight: 600; color: var(--text-primary); margin-bottom: 2px; }
+  .si-qprev { font-size: 10px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .si-panel { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+  .si-ph { padding: 9px 13px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+  .si-body { flex: 1; padding: 11px; background: #EBEBEB; display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
+  .si-incoming { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 10px 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+  .si-draft { background: white; border: 1px solid #C7D2FE; border-left: 3px solid var(--indigo); border-radius: var(--radius-lg); padding: 10px 12px; box-shadow: 0 2px 6px rgba(79,70,229,0.07); }
+  .si-lbl { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 5px; }
+  .si-dlbl { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--indigo); margin-bottom: 5px; display: flex; align-items: center; justify-content: space-between; }
+  .si-confident { font-size: 9px; font-weight: 600; color: var(--green); background: var(--green-bg); border: 1px solid var(--green-border); padding: 1px 7px; border-radius: var(--radius-full); }
+  .si-txt { font-size: 11px; color: var(--text-primary); line-height: 1.55; }
+  .si-footer { padding: 9px 13px; border-top: 1px solid var(--border); display: flex; gap: 6px; background: white; }
+  .si-app { flex: 1; padding: 8px; background: var(--green); color: white; border: none; border-radius: var(--radius-md); font-family: 'DM Sans',sans-serif; font-size: 11px; font-weight: 700; cursor: pointer; }
+  .si-sm { padding: 8px 10px; background: white; color: var(--text-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); font-family: 'DM Sans',sans-serif; font-size: 11px; cursor: pointer; }
+  .si-rej { padding: 8px 10px; background: var(--red-bg); color: var(--red); border: 1px solid #FECACA; border-radius: var(--radius-md); font-family: 'DM Sans',sans-serif; font-size: 11px; cursor: pointer; }
+
+  /* FOLLOW-UP screen */
+  .sfu-row { padding: 11px 15px; border-bottom: 1px solid var(--border-light); display: flex; align-items: flex-start; gap: 10px; }
+  .sfu-name { font-size: 12px; font-weight: 600; color: var(--text-primary); margin-bottom: 1px; }
+  .sfu-detail { font-size: 10px; color: var(--text-muted); margin-bottom: 5px; }
+  .sfu-prev { font-size: 11px; color: var(--text-secondary); background: #FAFAFA; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 6px 10px; line-height: 1.5; }
+  .sfu-acts { display: flex; gap: 4px; flex-shrink: 0; margin-top: 2px; }
+  .sfubtn { height: 25px; padding: 0 10px; border-radius: var(--radius-md); font-size: 11px; font-weight: 500; cursor: pointer; border: 1px solid var(--border); background: white; color: var(--text-primary); font-family: 'DM Sans',sans-serif; }
+  .sfubtn-p { background: var(--text-primary); color: white; border-color: var(--text-primary); }
+
+  /* APPOINTMENTS screen */
+  .sa-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; padding: 11px 15px; }
+  .sa-sc { background: white; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 9px 11px; }
+  .sa-sl { font-size: 9px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2px; }
+  .sa-sv { font-size: 19px; font-weight: 700; color: var(--text-primary); }
+  .sa-ss { font-size: 10px; color: var(--text-muted); }
+  .sa-tbl { padding: 0 15px 14px; }
+  .sa-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+  .sa-table th { text-align: left; padding: 7px 7px; font-size: 9px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border); }
+  .sa-table td { padding: 8px 7px; color: var(--text-secondary); border-bottom: 1px solid var(--border-light); vertical-align: middle; }
+  .sa-table tr:last-child td { border-bottom: none; }
+
+  /* CONTACTS screen */
+  .sc-wrap { padding: 14px; }
+  .sc-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 9px; }
+  .sc-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 12px; text-align: center; }
+  .sc-av { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: white; margin: 0 auto 5px; }
+  .sc-name { font-size: 11px; font-weight: 600; color: var(--text-primary); margin-bottom: 1px; }
+  .sc-title { font-size: 9px; color: var(--text-muted); margin-bottom: 6px; }
+  .sc-rt { height: 3px; background: #F3F4F6; border-radius: 2px; margin: 5px 0; overflow: hidden; }
+  .sc-rf { height: 100%; border-radius: 2px; }
+  .sc-stats { display: flex; border-top: 1px solid var(--border-light); padding-top: 7px; margin-top: 5px; }
+  .scs { flex: 1; text-align: center; }
+  .scs + .scs { border-left: 1px solid var(--border-light); }
+  .scs-v { font-size: 11px; font-weight: 700; color: var(--text-primary); }
+  .scs-l { font-size: 9px; color: var(--text-muted); }
+
+  /* ANALYTICS screen */
+  .san-wrap { padding: 14px; }
+  .san-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 12px; }
+  .san-sc { background: white; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 9px 10px; }
+  .san-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+  .san-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 11px; }
+  .san-title { font-size: 11px; font-weight: 600; color: var(--text-primary); margin-bottom: 9px; }
+  .san-bars { display: flex; align-items: flex-end; gap: 4px; height: 64px; }
+  .san-bc { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; height: 100%; }
+  .san-bt { flex: 1; width: 100%; background: #F3F4F6; border-radius: 3px 3px 0 0; position: relative; }
+  .san-bf { position: absolute; bottom: 0; left: 0; right: 0; background: var(--text-primary); border-radius: 3px 3px 0 0; }
+  .san-bl { font-size: 9px; color: var(--text-muted); }
+  .san-br { display: flex; align-items: center; gap: 5px; margin-bottom: 6px; }
+  .san-brl { font-size: 10px; color: var(--text-secondary); width: 46px; flex-shrink: 0; text-align: right; }
+  .san-brt { flex: 1; height: 4px; background: #F3F4F6; border-radius: 2px; overflow: hidden; }
+  .san-brf { height: 100%; border-radius: 2px; background: var(--text-primary); }
+  .san-brv { font-size: 10px; color: var(--text-muted); width: 26px; text-align: right; }
+  .san-faq { display: flex; align-items: center; justify-content: space-between; padding: 4px 7px; background: #FAFAFA; border: 1px solid var(--border-light); border-radius: var(--radius-sm); margin-bottom: 4px; font-size: 10px; color: var(--text-secondary); }
+
+  /* HANDLES TABLE */
+  .handles-table { width: 100%; border-collapse: collapse; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-card); font-size: 14px; }
+  .handles-table thead th { background: #F9FAFB; padding: 11px 20px; text-align: left; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); border-bottom: 1px solid var(--border); }
+  .handles-table tbody tr { background: white; transition: background 0.1s; }
+  .handles-table tbody tr:hover { background: #FAFAFA; }
+  .handles-table tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border-light); }
+  .handles-table td { padding: 13px 20px; line-height: 1.55; color: var(--text-secondary); }
+  .handles-table td:first-child { color: var(--text-primary); font-weight: 500; }
+  .closing-line { margin-top: 24px; font-size: 15px; color: var(--text-secondary); font-style: italic; text-align: center; }
+
+  /* TRUST */
+  .trust-nums { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 48px; }
+  .stat-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 22px 18px; text-align: center; box-shadow: var(--shadow-card); }
+  .stat-card .big-num { font-size: 30px; font-weight: 700; color: var(--indigo); letter-spacing: -0.02em; }
+  .stat-card .stat-desc { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+  .quote-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 28px; box-shadow: var(--shadow-card); margin-bottom: 32px; }
+  .quote-mark { font-size: 48px; line-height: 1; color: var(--indigo-light); font-weight: 700; }
+  .quote-text { font-size: 16px; color: var(--text-primary); line-height: 1.7; font-style: italic; margin-top: 8px; }
+  .quote-author { margin-top: 16px; }
+  .quote-author strong { font-size: 14px; font-weight: 600; display: block; }
+  .quote-author span { font-size: 12px; color: var(--text-muted); }
+  .trust-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-bottom: 20px; }
+  .trust-item { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 18px; display: flex; gap: 12px; align-items: flex-start; box-shadow: var(--shadow-card); }
+  .trust-icon { font-size: 18px; flex-shrink: 0; margin-top: 2px; }
+  .trust-item p { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+  .manglish-tag { background: var(--green-bg); border: 1px solid var(--green-border); border-radius: var(--radius-lg); padding: 14px 24px; text-align: center; font-size: 14px; color: var(--green); font-style: italic; }
+
+  /* PRICING */
+  .pricing-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 18px; align-items: start; max-width: 780px; margin: 0 auto; }
+  .pricing-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 26px; box-shadow: var(--shadow-card); position: relative; transition: box-shadow 0.15s; }
+  .pricing-card:hover { box-shadow: var(--shadow-hover); }
+  .pricing-card.featured { border-color: var(--indigo); border-width: 2px; box-shadow: 0 8px 30px rgba(79,70,229,0.10); }
+  .popular-badge { position: absolute; top: -11px; left: 50%; transform: translateX(-50%); background: var(--indigo); color: white; font-size: 11px; font-weight: 600; padding: 3px 14px; border-radius: var(--radius-full); white-space: nowrap; }
+  .plan-name { font-size: 17px; font-weight: 700; margin-bottom: 3px; }
+  .plan-desc { font-size: 12px; color: var(--text-muted); margin-bottom: 18px; }
+  .plan-price { font-size: 34px; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 4px; }
+  .plan-price span { font-size: 13px; font-weight: 400; color: var(--text-muted); }
+  .plan-price .currency { font-size: 15px; font-weight: 600; vertical-align: super; }
+  .plan-divider { height: 1px; background: var(--border); margin: 18px 0; }
+  .plan-features { list-style: none; display: flex; flex-direction: column; gap: 9px; margin-bottom: 22px; }
+  .plan-features li { display: flex; gap: 9px; align-items: flex-start; font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+  .plan-features li .check { color: var(--green); flex-shrink: 0; margin-top: 1px; }
+  .plan-features li.section-title { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-top: 4px; }
+  .plan-cta { width: 100%; padding: 10px; border-radius: var(--radius-md); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; border: none; transition: all 0.15s; }
+  .plan-cta-p { background: var(--indigo); color: white; }
+  .plan-cta-p:hover { background: #4338CA; }
+  .plan-cta-s { background: white; color: var(--text-primary); border: 1px solid var(--border); }
+  .plan-cta-s:hover { background: #F9FAFB; }
+  .pricing-footnote { text-align: center; font-size: 13px; color: var(--text-muted); margin-top: 22px; }
+
+  /* FINAL CTA */
+  .final-cta { background: var(--indigo); padding: 80px 40px; text-align: center; }
+  .final-cta h2 { color: white; font-size: clamp(26px, 4vw, 40px); margin-bottom: 14px; }
+  .final-cta p { font-size: 16px; color: rgba(255,255,255,0.65); margin-bottom: 34px; }
+  .btn-final { font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700; color: var(--indigo); background: white; border: none; padding: 14px 36px; border-radius: var(--radius-md); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.15s; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+  .btn-final:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.25); }
+  .final-reassurance { font-size: 12px; color: rgba(255,255,255,0.45); margin-top: 18px; }
+
+  /* FOOTER */
+  footer { background: #111827; padding: 36px 40px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .footer-logo { font-size: 16px; font-weight: 700; color: white; }
+  .footer-logo span { color: #6366F1; }
+  .footer-desc { font-size: 12px; color: rgba(255,255,255,0.3); margin-top: 3px; }
+  .footer-links { display: flex; gap: 20px; }
+  .footer-links a { font-size: 13px; color: rgba(255,255,255,0.35); text-decoration: none; transition: color 0.15s; }
+  .footer-links a:hover { color: rgba(255,255,255,0.7); }
+  .footer-flag { font-size: 12px; color: rgba(255,255,255,0.25); }
+
+  .full-divider { height: 1px; background: var(--border); }
+  .fade-in { opacity: 0; transform: translateY(18px); transition: opacity 0.5s ease, transform 0.5s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; gap: 16px; }
+    .nav-links { display: none; }
+    .wrap { padding: 0 20px; }
+    .hero { grid-template-columns: 1fr; padding: 40px 0 48px; gap: 40px; }
+    section { padding: 56px 0; }
+    .steps-grid { grid-template-columns: 1fr; }
+    .fslide.active { grid-template-columns: 1fr; }
+    .trust-nums { grid-template-columns: repeat(2,1fr); }
+    .trust-row { grid-template-columns: 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .pain-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; align-items: flex-start; padding: 28px 20px; }
+    .final-cta { padding: 56px 20px; }
+    .sc-grid { grid-template-columns: repeat(2,1fr); }
+    .carousel-wrap { padding: 56px 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo"><img src="/logo.jpg" alt="EIGHT AI" style="height:32px;width:auto;display:block;border-radius:6px;"></a>
+  <ul class="nav-links">
+    <li><a href="#how-it-works">How it works</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+  </ul>
+  <div class="nav-spacer"></div>
+  <a href="#demo" class="btn-nav">Book a Demo</a>
+</nav>
+
+<!-- HERO -->
+<div class="wrap">
+  <div class="hero">
+    <div>
+      <div class="hero-badge">Now available for aesthetic clinics in Malaysia</div>
+      <h1>AI replies to your patients.<br><em>You just tap Approve.</em></h1>
+      <p class="hero-sub">eight.ai reads every patient message, writes the reply, and waits for your approval. The whole thing takes two seconds.</p>
+      <div class="hero-ctas">
+        <a href="#demo" class="btn-primary">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Book a Demo
+        </a>
+        <a href="#how-it-works" class="btn-secondary">
+          See how it works
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+      <div class="hero-micro">
+        <span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Setup in under 30 minutes</span>
+        <span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Works with your existing WhatsApp number</span>
+      </div>
+    </div>
+    <div>
+      <div class="app-frame">
+        <div class="frame-bar">
+          <div class="fdot" style="background:#EF4444;"></div>
+          <div class="fdot" style="background:#F59E0B;"></div>
+          <div class="fdot" style="background:#22C55E;"></div>
+          <span class="frame-title">eight.ai — Inbox · 4 pending</span>
+        </div>
+        <div class="mini-queue-hdr">
+          <span class="mini-queue-title">Pending approval</span>
+          <span class="mini-count">4 drafts</span>
+        </div>
+        <div class="mini-layout">
+          <div class="mini-qlist">
+            <div class="mqi active">
+              <div class="mbadge" style="background:#FFF8E6;color:#D97706;">hot lead</div>
+              <div class="mqi-name">Siti Liyana</div>
+              <div class="mqi-preview">Nak tanya ada slot tak this Sat...</div>
+            </div>
+            <div class="mqi">
+              <div class="mbadge" style="background:#E8F4FD;color:#1565C0;">new</div>
+              <div class="mqi-name">Ahmad Razif</div>
+              <div class="mqi-preview">Berapa harga laser treatment?</div>
+            </div>
+            <div class="mqi">
+              <div class="mbadge" style="background:#F3F4F6;color:#374151;">group</div>
+              <div class="mqi-name">Klinik Staff</div>
+              <div class="mqi-preview">Patient slot 3pm cancel...</div>
+            </div>
+            <div class="mqi">
+              <div class="mbadge" style="background:#F3F4F6;color:#374151;">returning</div>
+              <div class="mqi-name">Mei Ling</div>
+              <div class="mqi-preview">Ok boleh. Confirm slot 3pm...</div>
+            </div>
+          </div>
+          <div class="mini-panel">
+            <div class="mini-ph">
+              <div class="mav" style="background:#C4B5FD;">SL</div>
+              <div>
+                <div class="mpname">Siti Liyana</div>
+                <div class="mpmeta">Last visit 3 weeks · Botox</div>
+              </div>
+              <span class="mbadge" style="background:#FFF8E6;color:#D97706;margin-left:auto;">hot lead</span>
+            </div>
+            <div class="mini-body">
+              <div class="mmsg">
+                <div class="mlabel">They said</div>
+                <div class="mtext">"Hi! Nak tanya ada slot tak this Saturday untuk botox touch up? Doktor yang sama boleh?"</div>
+              </div>
+              <div class="mdraft">
+                <div class="mdlabel">AI draft <span class="mconfident">eight.ai · confident</span></div>
+                <div class="mtext">"Hi Kak Siti! Ada slot Saturday pukul 11am dan 2pm dengan Dr. Amirah. Nak confirm yang mana satu? 😊"</div>
+              </div>
+            </div>
+            <div class="mini-footer">
+              <button class="mbtn-rej">Reject</button>
+              <button class="mbtn-sm">Edit</button>
+              <button class="mbtn-app" onclick="this.textContent='✓ Sent!';setTimeout(()=>this.textContent='Approve & Send',2000)">Approve &amp; Send</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-chip"><strong>&lt;30s</strong><span>AI reply time</span></div>
+        <div class="stat-chip"><strong>4 languages</strong><span>BM, EN, 中文, Manglish</span></div>
+        <div class="stat-chip"><strong>100%</strong><span>Human-approved</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="full-divider"></div>
+
+<!-- PAIN -->
+<div class="wrap">
+  <section id="problem" class="fade-in">
+    <div class="section-label">Sound familiar?</div>
+    <h2>The WhatsApp chaos that's costing you patients</h2>
+    <p class="section-sub">Every missed message is a patient who booked somewhere else. This is the daily reality for most clinics — and it's completely fixable.</p>
+    <div class="pain-grid">
+      <div class="pain-card"><div class="pain-icon">🌙</div><p>"Patients message at 11pm asking for slots. By morning they've already booked somewhere else."</p></div>
+      <div class="pain-card"><div class="pain-icon">⌨️</div><p>"Staff spend hours every day just typing WhatsApp replies. That's not what you hired them for."</p></div>
+      <div class="pain-card"><div class="pain-icon">📉</div><p>"Inquiries fall through the cracks. You don't even know how many you're losing."</p></div>
+      <div class="pain-card"><div class="pain-icon">🎲</div><p>"Response time depends on who's on duty. Inconsistent. Unprofessional."</p></div>
+      <div class="pain-card"><div class="pain-icon">👻</div><p>"Lapsed patients disappear and nobody follows up because there's no time."</p></div>
+      <div class="pain-card"><div class="pain-icon">🔥</div><p>"Three different phones for WhatsApp. Nobody knows who replied to who. It's a mess."</p></div>
+    </div>
+  </section>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="wrap">
+  <section id="how-it-works" class="fade-in">
+    <div class="section-label">How it works</div>
+    <h2>Three steps. That's it.</h2>
+    <p class="section-sub">Simple enough that any clinic owner gets it immediately. No technical knowledge needed — ever.</p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">Step 01</div>
+        <div class="step-icon" style="background:#EEF2FF;">💬</div>
+        <h3>Patient messages you</h3>
+        <p>Your patients message your existing WhatsApp number as usual. Nothing changes on their end. No new app to download.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">Step 02</div>
+        <div class="step-icon" style="background:#FFF8E6;">⚡</div>
+        <h3>AI drafts the reply</h3>
+        <p>eight.ai reads the message and writes a reply instantly — in the patient's language, using your clinic's info, in your tone.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">Step 03</div>
+        <div class="step-icon" style="background:#F0FFF4;">✅</div>
+        <h3>You approve and it sends</h3>
+        <p>You see the draft in seconds. Tap Approve. Done. The whole thing takes less than two seconds.</p>
+      </div>
+    </div>
+    <div class="fear-handler">
+      <div style="font-size:18px;flex-shrink:0;margin-top:2px;">🛡️</div>
+      <p><strong>Not ready to trust it fully?</strong> Start on Approval mode — every message gets reviewed by you before anything sends. Switch to Full Auto when you're ready. You're always in control.</p>
+    </div>
+  </section>
+</div>
+
+<!-- FEATURE CAROUSEL -->
+<div class="carousel-wrap" id="features">
+  <div class="wrap fade-in">
+    <div class="section-label">See the product</div>
+    <h2>This is what your mornings look like with eight.ai</h2>
+    <p class="section-sub">Click through every feature. This is the real app — not a mockup.</p>
+
+    <div class="ftabs">
+      <button class="ftab active" onclick="showF('inbox',this)">💬 Approve Inbox</button>
+      <button class="ftab" onclick="showF('followup',this)">🔄 Follow-Up Queue</button>
+      <button class="ftab" onclick="showF('appointments',this)">📅 Appointments</button>
+      <button class="ftab" onclick="showF('contacts',this)">👥 Patient Contacts</button>
+      <button class="ftab" onclick="showF('analytics',this)">📊 Analytics</button>
+    </div>
+
+    <!-- INBOX -->
+    <div class="fslide active" id="f-inbox">
+      <div class="fcopy">
+        <div class="section-label">Approve Inbox</div>
+        <h3>AI drafts every reply. You approve in 2 seconds.</h3>
+        <p>Every WhatsApp message shows up here with an AI-drafted reply ready to go. Review, tap Approve, done. That's your whole job.</p>
+        <ul class="fpoints">
+          <li><span class="ck">✓</span>AI drafts in Bahasa, English, Mandarin & Manglish automatically</li>
+          <li><span class="ck">✓</span>Confidence indicator — see how sure the AI is before approving</li>
+          <li><span class="ck">✓</span>Edit, reject, or skip any draft — you have full control at all times</li>
+          <li><span class="ck">✓</span>Switch to Full Auto and AI sends without waiting for you</li>
+          <li><span class="ck">✓</span>Handles 1:1 messages and group chats</li>
+        </ul>
+      </div>
+      <div class="ashot">
+        <div class="ashot-bar">
+          <div class="fdot" style="background:#EF4444;"></div>
+          <div class="fdot" style="background:#F59E0B;"></div>
+          <div class="fdot" style="background:#22C55E;"></div>
+          <span class="frame-title">Inbox — All Pending (4)</span>
+        </div>
+        <div class="app-scr">
+          <div class="sp-hdr"><div class="sp-title">Inbox</div></div>
+          <div class="stabs">
+            <div class="stab on">All Pending (4)</div>
+            <div class="stab">AI Handling</div>
+            <div class="stab">Escalated</div>
+          </div>
+          <div class="si-layout">
+            <div class="si-q">
+              <div class="si-qh">Pending · 4 drafts</div>
+              <div class="si-qi on"><div class="sbadge" style="background:#FFF8E6;color:#D97706;">hot lead</div><div class="si-qname">Siti Liyana</div><div class="si-qprev">Nak tanya ada slot tak this Sat...</div></div>
+              <div class="si-qi"><div class="sbadge" style="background:#E8F4FD;color:#1565C0;">new</div><div class="si-qname">Ahmad Razif</div><div class="si-qprev">Berapa harga laser?</div></div>
+              <div class="si-qi"><div class="sbadge" style="background:#F3F4F6;color:#374151;">group</div><div class="si-qname">Klinik Staff</div><div class="si-qprev">Patient slot 3pm cancel...</div></div>
+              <div class="si-qi"><div class="sbadge" style="background:#F3F4F6;color:#374151;">returning</div><div class="si-qname">Mei Ling</div><div class="si-qprev">Ok boleh. Confirm slot...</div></div>
+            </div>
+            <div class="si-panel">
+              <div class="si-ph">
+                <div class="sav" style="width:28px;height:28px;background:#C4B5FD;">SL</div>
+                <div><div style="font-size:12px;font-weight:600;">Siti Liyana</div><div style="font-size:10px;color:var(--text-muted);">Last visit 3 weeks · Botox, Filler</div></div>
+                <span class="sbadge" style="background:#FFF8E6;color:#D97706;margin-left:auto;">hot lead</span>
+              </div>
+              <div class="si-body">
+                <div class="si-incoming">
+                  <div class="si-lbl">They said</div>
+                  <div class="si-txt">"Hi! Nak tanya ada slot tak this Saturday untuk botox touch up? Doktor yang sama boleh?"</div>
+                </div>
+                <div class="si-draft">
+                  <div class="si-dlbl">AI draft <span class="si-confident">eight.ai · confident</span></div>
+                  <div class="si-txt">"Hi Kak Siti! Ada slot Saturday ni pukul 11am dan 2pm dengan Dr. Amirah. Nak confirm yang mana satu? 😊"</div>
+                </div>
+              </div>
+              <div class="si-footer">
+                <button class="si-rej">Reject</button>
+                <button class="si-sm">Edit</button>
+                <button class="si-app">Approve &amp; Send</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOLLOW-UP -->
+    <div class="fslide" id="f-followup">
+      <div class="fcopy">
+        <div class="section-label">Follow-Up Queue</div>
+        <h3>Lapsed patients, re-engaged automatically.</h3>
+        <p>eight.ai tracks when patients are overdue and drafts personalised re-engagement messages — ready for you to approve in one tap.</p>
+        <ul class="fpoints">
+          <li><span class="ck">✓</span>Detects patients overdue based on their own visit pattern</li>
+          <li><span class="ck">✓</span>AI drafts personalised messages using name, treatment history & your tone</li>
+          <li><span class="ck">✓</span>Approve all at once or review one by one</li>
+          <li><span class="ck">✓</span>Upsell queue — AI spots patients ready for their next treatment</li>
+          <li><span class="ck">✓</span>Follow-up sequences — automated multi-step re-engagement flows</li>
+        </ul>
+      </div>
+      <div class="ashot">
+        <div class="ashot-bar">
+          <div class="fdot" style="background:#EF4444;"></div>
+          <div class="fdot" style="background:#F59E0B;"></div>
+          <div class="fdot" style="background:#22C55E;"></div>
+          <span class="frame-title">Follow-Up Queue · Lapsed Recovery (4)</span>
+        </div>
+        <div class="app-scr">
+          <div class="sp-hdr"><div class="sp-title">Follow-Up Queue</div></div>
+          <div class="stabs">
+            <div class="stab on">Lapsed Recovery (4)</div>
+            <div class="stab">Upsell Queue (3)</div>
+            <div class="stab">Sequences</div>
+          </div>
+          <div style="padding:9px 15px;background:#FAFAFA;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+            <span style="font-size:11px;font-weight:600;color:var(--text-primary);">Lapsed patients — AI drafted messages</span>
+            <span style="font-size:10px;color:var(--text-muted);">4 queued today</span>
+          </div>
+          <div class="sfu-row">
+            <div class="sav" style="width:36px;height:36px;background:#FCA5A5;color:#7F1D1D;font-size:12px;">RH</div>
+            <div style="flex:1;min-width:0;">
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;"><span class="sfu-name">Rania Hassan</span><span class="sbadge" style="background:var(--red-bg);color:var(--red);">82% lapse risk</span></div>
+              <div class="sfu-detail">Last: Botox — 9 weeks ago · Usually returns every 6 weeks</div>
+              <div class="sfu-prev">"Hi Kak Rania! Botox you biasanya dah nak top-up by now 😊 Nak book slot minggu ni? Ada opening Khamis 3pm — Klinik Cahaya"</div>
+            </div>
+            <div class="sfu-acts"><button class="sfubtn sfubtn-p">Send</button><button class="sfubtn">Edit</button></div>
+          </div>
+          <div class="sfu-row">
+            <div class="sav" style="width:36px;height:36px;background:#FCD34D;color:#78350F;font-size:12px;">KR</div>
+            <div style="flex:1;min-width:0;">
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;"><span class="sfu-name">Kak Rina</span><span class="sbadge" style="background:var(--red-bg);color:var(--red);">76% lapse risk</span></div>
+              <div class="sfu-detail">Last: Botox — 12 weeks ago · Usually returns every 8 weeks</div>
+              <div class="sfu-prev">"Hai Kak Rina! Lama tak jumpa 🌸 Skin check-in — dah nak top-up ke? — Klinik Cahaya"</div>
+            </div>
+            <div class="sfu-acts"><button class="sfubtn sfubtn-p">Send</button><button class="sfubtn">Edit</button></div>
+          </div>
+          <div class="sfu-row">
+            <div class="sav" style="width:36px;height:36px;background:#C4B5FD;font-size:12px;">SL</div>
+            <div style="flex:1;min-width:0;">
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;"><span class="sfu-name">Siti Liyana</span><span class="sbadge" style="background:var(--amber-bg);color:var(--amber);">54% lapse risk</span></div>
+              <div class="sfu-detail">Last: Filler — 3 weeks ago · Due for follow-up check</div>
+              <div class="sfu-prev">"Hi Kak Siti! Just checking in — filler area okay? — Klinik Cahaya 😊"</div>
+            </div>
+            <div class="sfu-acts"><button class="sfubtn sfubtn-p">Send</button><button class="sfubtn">Edit</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- APPOINTMENTS -->
+    <div class="fslide" id="f-appointments">
+      <div class="fcopy">
+        <div class="section-label">Appointments</div>
+        <h3>Your schedule, with no-show risk built in.</h3>
+        <p>See every booking, get no-show risk scores per patient, and let AI send reminders automatically — so fewer patients ghost you.</p>
+        <ul class="fpoints">
+          <li><span class="ck">✓</span>No-show risk scoring — AI flags patients most likely to cancel</li>
+          <li><span class="ck">✓</span>Automated appointment reminders sent via WhatsApp</li>
+          <li><span class="ck">✓</span>Reschedule requests handled automatically in the inbox</li>
+          <li><span class="ck">✓</span>Week view with daily stats at a glance</li>
+          <li><span class="ck">✓</span>Track confirmation status per patient</li>
+        </ul>
+      </div>
+      <div class="ashot">
+        <div class="ashot-bar">
+          <div class="fdot" style="background:#EF4444;"></div>
+          <div class="fdot" style="background:#F59E0B;"></div>
+          <div class="fdot" style="background:#22C55E;"></div>
+          <span class="frame-title">Appointments — Friday, 4 Apr</span>
+        </div>
+        <div class="app-scr">
+          <div class="sp-hdr"><div class="sp-title">Appointments</div></div>
+          <div class="stabs"><div class="stab on">This Week</div><div class="stab">Calendar View</div><div class="stab">All Bookings</div></div>
+          <div class="sa-stats">
+            <div class="sa-sc"><div class="sa-sl">Today</div><div class="sa-sv">8</div><div class="sa-ss">3 confirmed · 5 pending</div></div>
+            <div class="sa-sc"><div class="sa-sl">No-Show Risk</div><div class="sa-sv" style="color:var(--red);">2</div><div class="sa-ss">Need attention</div></div>
+            <div class="sa-sc"><div class="sa-sl">Reminders Sent</div><div class="sa-sv">6</div><div class="sa-ss">4 confirmed</div></div>
+            <div class="sa-sc"><div class="sa-sl">Week Total</div><div class="sa-sv">34</div><div class="sa-ss" style="color:var(--green);">↑ 12%</div></div>
+          </div>
+          <div class="sa-tbl">
+            <table class="sa-table">
+              <thead><tr><th>Time</th><th>Patient</th><th>Treatment</th><th>Status</th><th>No-Show</th><th>Reminder</th></tr></thead>
+              <tbody>
+                <tr><td style="font-weight:700;color:var(--text-primary);">10:00</td><td>Siti Liyana</td><td>Botox Touch-Up</td><td><span class="sbadge" style="background:var(--green-bg);color:var(--green);">Confirmed</span></td><td style="color:var(--green);font-size:10px;">Low 20%</td><td style="color:var(--green);font-size:10px;">✓ Sent</td></tr>
+                <tr><td style="font-weight:700;color:var(--text-primary);">11:30</td><td>Mei Ling</td><td>Laser Session #4</td><td><span class="sbadge" style="background:var(--green-bg);color:var(--green);">Confirmed</span></td><td style="color:var(--amber);font-size:10px;">Med 35%</td><td style="color:var(--green);font-size:10px;">✓ Sent</td></tr>
+                <tr><td style="font-weight:700;color:var(--text-primary);">2:00</td><td>Rania Hassan</td><td>Filler — Lips</td><td><span class="sbadge" style="background:var(--amber-bg);color:var(--amber);">Pending</span></td><td style="color:var(--red);font-weight:700;font-size:10px;">High 78%</td><td style="color:var(--text-muted);font-size:10px;">Scheduled</td></tr>
+                <tr><td style="font-weight:700;color:var(--text-primary);">3:30</td><td>Ahmad Razif</td><td>Laser Consultation</td><td><span class="sbadge" style="background:#E8F4FD;color:#1565C0;">Booked</span></td><td style="color:var(--red);font-weight:700;font-size:10px;">High 68%</td><td style="color:var(--text-muted);font-size:10px;">Pending</td></tr>
+                <tr><td style="font-weight:700;color:var(--text-primary);">4:30</td><td>Nurul Zahra</td><td>Collagen Booster</td><td><span class="sbadge" style="background:var(--green-bg);color:var(--green);">Confirmed</span></td><td style="color:var(--green);font-size:10px;">Low 15%</td><td style="color:var(--green);font-size:10px;">✓ Confirmed</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTACTS -->
+    <div class="fslide" id="f-contacts">
+      <div class="fcopy">
+        <div class="section-label">Patient Contacts</div>
+        <h3>Know exactly which patients are slipping away.</h3>
+        <p>Every patient gets an enriched profile — visit history, total spend, lapse risk score. See who needs attention at a glance.</p>
+        <ul class="fpoints">
+          <li><span class="ck">✓</span>Lapse risk score per patient — updated automatically</li>
+          <li><span class="ck">✓</span>Treatment history, visit count, and total spend in one view</li>
+          <li><span class="ck">✓</span>Sorted by urgency — highest-risk patients first</li>
+          <li><span class="ck">✓</span>Hot Lead, VIP, Lapsed tags assigned automatically</li>
+          <li><span class="ck">✓</span>Filter by New, Lapsed, Hot Leads with one tap</li>
+        </ul>
+      </div>
+      <div class="ashot">
+        <div class="ashot-bar">
+          <div class="fdot" style="background:#EF4444;"></div>
+          <div class="fdot" style="background:#F59E0B;"></div>
+          <div class="fdot" style="background:#22C55E;"></div>
+          <span class="frame-title">Contacts — All Patients</span>
+        </div>
+        <div class="app-scr">
+          <div class="sp-hdr"><div class="sp-title">Contacts</div></div>
+          <div class="stabs"><div class="stab on">All Patients</div><div class="stab">Hot Leads</div><div class="stab">Lapsed</div><div class="stab">New</div></div>
+          <div class="sc-wrap">
+            <div class="sc-grid">
+              <div class="sc-card"><div style="text-align:right;margin-bottom:5px;"><span class="sbadge" style="background:var(--red-bg);color:var(--red);">High risk</span></div><div class="sc-av" style="background:#FCA5A5;color:#7F1D1D;">RH</div><div class="sc-name">Rania Hassan</div><div class="sc-title">Botox, Filler · 8 visits</div><div class="sc-rt"><div class="sc-rf" style="width:82%;background:var(--red);"></div></div><div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text-muted);margin-bottom:5px;"><span>Lapse risk</span><span style="color:var(--red);font-weight:700;">82%</span></div><div class="sc-stats"><div class="scs"><div class="scs-v">8</div><div class="scs-l">Visits</div></div><div class="scs"><div class="scs-v">RM2.4k</div><div class="scs-l">Spent</div></div><div class="scs"><div class="scs-v">9w</div><div class="scs-l">Overdue</div></div></div></div>
+              <div class="sc-card"><div style="text-align:right;margin-bottom:5px;"><span class="sbadge" style="background:var(--amber-bg);color:var(--amber);">Med risk</span></div><div class="sc-av" style="background:#C4B5FD;">SL</div><div class="sc-name">Siti Liyana</div><div class="sc-title">Botox, Filler · 5 visits</div><div class="sc-rt"><div class="sc-rf" style="width:54%;background:var(--amber);"></div></div><div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text-muted);margin-bottom:5px;"><span>Lapse risk</span><span style="color:var(--amber);font-weight:700;">54%</span></div><div class="sc-stats"><div class="scs"><div class="scs-v">5</div><div class="scs-l">Visits</div></div><div class="scs"><div class="scs-v">RM1.1k</div><div class="scs-l">Spent</div></div><div class="scs"><div class="scs-v">3w</div><div class="scs-l">Overdue</div></div></div></div>
+              <div class="sc-card"><div style="text-align:right;margin-bottom:5px;"><span class="sbadge" style="background:var(--green-bg);color:var(--green);">Low risk</span></div><div class="sc-av" style="background:#6EE7B7;color:#065F46;">ML</div><div class="sc-name">Mei Ling</div><div class="sc-title">Laser, Collagen · 12 visits</div><div class="sc-rt"><div class="sc-rf" style="width:12%;background:var(--green);"></div></div><div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text-muted);margin-bottom:5px;"><span>Lapse risk</span><span style="color:var(--green);font-weight:700;">12%</span></div><div class="sc-stats"><div class="scs"><div class="scs-v">12</div><div class="scs-l">Visits</div></div><div class="scs"><div class="scs-v">RM4.8k</div><div class="scs-l">Spent</div></div><div class="scs"><div class="scs-v">VIP</div><div class="scs-l">Tag</div></div></div></div>
+              <div class="sc-card"><div style="text-align:right;margin-bottom:5px;"><span class="sbadge" style="background:#E8F4FD;color:#1565C0;">New</span></div><div class="sc-av" style="background:#93C5FD;color:#1D4ED8;">AR</div><div class="sc-name">Ahmad Razif</div><div class="sc-title">New inquiry · 0 visits</div><div class="sc-rt"></div><div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text-muted);margin-bottom:5px;"><span>Status</span><span style="color:#1565C0;font-weight:700;">Pending</span></div><div class="sc-stats"><div class="scs"><div class="scs-v">0</div><div class="scs-l">Visits</div></div><div class="scs"><div class="scs-v">—</div><div class="scs-l">Spent</div></div><div class="scs"><div class="scs-v">Today</div><div class="scs-l">Joined</div></div></div></div>
+              <div class="sc-card"><div style="text-align:right;margin-bottom:5px;"><span class="sbadge" style="background:var(--red-bg);color:var(--red);">High risk</span></div><div class="sc-av" style="background:#FCD34D;color:#78350F;">KR</div><div class="sc-name">Kak Rina</div><div class="sc-title">Botox · 3 visits</div><div class="sc-rt"><div class="sc-rf" style="width:76%;background:var(--red);"></div></div><div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text-muted);margin-bottom:5px;"><span>Lapse risk</span><span style="color:var(--red);font-weight:700;">76%</span></div><div class="sc-stats"><div class="scs"><div class="scs-v">3</div><div class="scs-l">Visits</div></div><div class="scs"><div class="scs-v">RM780</div><div class="scs-l">Spent</div></div><div class="scs"><div class="scs-v">12w</div><div class="scs-l">Overdue</div></div></div></div>
+              <div class="sc-card"><div style="text-align:right;margin-bottom:5px;"><span class="sbadge" style="background:var(--green-bg);color:var(--green);">Low risk</span></div><div class="sc-av" style="background:#6EE7B7;color:#065F46;">NZ</div><div class="sc-name">Nurul Zahra</div><div class="sc-title">Collagen, HIFU · 7 visits</div><div class="sc-rt"><div class="sc-rf" style="width:8%;background:var(--green);"></div></div><div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text-muted);margin-bottom:5px;"><span>Lapse risk</span><span style="color:var(--green);font-weight:700;">8%</span></div><div class="sc-stats"><div class="scs"><div class="scs-v">7</div><div class="scs-l">Visits</div></div><div class="scs"><div class="scs-v">RM2.1k</div><div class="scs-l">Spent</div></div><div class="scs"><div class="scs-v">Active</div><div class="scs-l">Status</div></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ANALYTICS -->
+    <div class="fslide" id="f-analytics">
+      <div class="fcopy">
+        <div class="section-label">Analytics</div>
+        <h3>Know what's working. Fix what isn't.</h3>
+        <p>See how many messages AI handled, what your patients ask most, peak hours, language breakdown, and how your response time has improved.</p>
+        <ul class="fpoints">
+          <li><span class="ck">✓</span>Messages handled, AI resolution rate, avg response time</li>
+          <li><span class="ck">✓</span>Language breakdown — see what your patients actually speak</li>
+          <li><span class="ck">✓</span>Top patient questions — know their real concerns</li>
+          <li><span class="ck">✓</span>Peak hours heatmap — know when your clinic is busiest</li>
+          <li><span class="ck">✓</span>Monthly AI performance report (Growth & Pro plans)</li>
+        </ul>
+      </div>
+      <div class="ashot">
+        <div class="ashot-bar">
+          <div class="fdot" style="background:#EF4444;"></div>
+          <div class="fdot" style="background:#F59E0B;"></div>
+          <div class="fdot" style="background:#22C55E;"></div>
+          <span class="frame-title">Analytics — Last 7 days</span>
+        </div>
+        <div class="app-scr">
+          <div class="sp-hdr"><div class="sp-title">Analytics</div></div>
+          <div class="stabs"><div class="stab on">Overview</div><div class="stab">Conversations</div><div class="stab">Bookings</div></div>
+          <div class="san-wrap">
+            <div class="san-stats">
+              <div class="san-sc"><div class="sa-sl">Messages</div><div class="sa-sv">342</div><div class="sa-ss" style="color:var(--green);">↑ 18%</div></div>
+              <div class="san-sc"><div class="sa-sl">AI Rate</div><div class="sa-sv">87%</div><div class="sa-ss" style="color:var(--green);">↑ 3%</div></div>
+              <div class="san-sc"><div class="sa-sl">Avg Response</div><div class="sa-sv">4s</div><div class="sa-ss">24/7 coverage</div></div>
+              <div class="san-sc"><div class="sa-sl">Escalations</div><div class="sa-sv">13%</div><div class="sa-ss" style="color:var(--green);">↓ 2%</div></div>
+            </div>
+            <div class="san-grid">
+              <div class="san-card">
+                <div class="san-title">Messages per day</div>
+                <div class="san-bars">
+                  <div class="san-bc"><div class="san-bt"><div class="san-bf" style="height:60%;"></div></div><span class="san-bl">Mon</span></div>
+                  <div class="san-bc"><div class="san-bt"><div class="san-bf" style="height:42%;"></div></div><span class="san-bl">Tue</span></div>
+                  <div class="san-bc"><div class="san-bt"><div class="san-bf" style="height:82%;"></div></div><span class="san-bl">Wed</span></div>
+                  <div class="san-bc"><div class="san-bt"><div class="san-bf" style="height:55%;"></div></div><span class="san-bl">Thu</span></div>
+                  <div class="san-bc"><div class="san-bt"><div class="san-bf" style="height:100%;"></div></div><span class="san-bl">Fri</span></div>
+                  <div class="san-bc"><div class="san-bt"><div class="san-bf" style="height:70%;"></div></div><span class="san-bl">Sat</span></div>
+                  <div class="san-bc"><div class="san-bt"><div class="san-bf" style="height:28%;"></div></div><span class="san-bl">Sun</span></div>
+                </div>
+              </div>
+              <div class="san-card">
+                <div class="san-title">Language breakdown</div>
+                <div class="san-br"><div class="san-brl">Bahasa</div><div class="san-brt"><div class="san-brf" style="width:52%;"></div></div><div class="san-brv">52%</div></div>
+                <div class="san-br"><div class="san-brl">Manglish</div><div class="san-brt"><div class="san-brf" style="width:28%;"></div></div><div class="san-brv">28%</div></div>
+                <div class="san-br"><div class="san-brl">English</div><div class="san-brt"><div class="san-brf" style="width:14%;"></div></div><div class="san-brv">14%</div></div>
+                <div class="san-br"><div class="san-brl">Mandarin</div><div class="san-brt"><div class="san-brf" style="width:6%;"></div></div><div class="san-brv">6%</div></div>
+              </div>
+              <div class="san-card" style="grid-column:1/-1;">
+                <div class="san-title">Top patient questions</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;">
+                  <div class="san-faq">"Ada slot this week?"<span class="sbadge" style="background:#F3F4F6;color:#374151;">48×</span></div>
+                  <div class="san-faq">"Berapa harga botox?"<span class="sbadge" style="background:#F3F4F6;color:#374151;">36×</span></div>
+                  <div class="san-faq">"Nak reschedule appointment"<span class="sbadge" style="background:#F3F4F6;color:#374151;">29×</span></div>
+                  <div class="san-faq">"Package laser ada tak?"<span class="sbadge" style="background:#F3F4F6;color:#374151;">17×</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CAROUSEL CONTROLS -->
+    <div class="carousel-controls">
+      <div class="carr-hint">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        Use arrows to explore all features
+      </div>
+      <div class="carousel-dots">
+        <div class="cdot active" onclick="goToSlide(0)"></div>
+        <div class="cdot" onclick="goToSlide(1)"></div>
+        <div class="cdot" onclick="goToSlide(2)"></div>
+        <div class="cdot" onclick="goToSlide(3)"></div>
+        <div class="cdot" onclick="goToSlide(4)"></div>
+      </div>
+      <div class="carousel-arrows">
+        <button class="carr-btn" id="carr-prev" onclick="stepCarousel(-1)" disabled aria-label="Previous feature">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="carr-btn" id="carr-next" onclick="stepCarousel(1)" aria-label="Next feature">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- WHAT IT HANDLES -->
+<div class="wrap">
+  <section id="handles" class="fade-in">
+    <div class="section-label">Features</div>
+    <h2>eight.ai handles this so your staff don't have to</h2>
+    <p class="section-sub">Real patient situations, handled automatically. Your team only steps in when it matters.</p>
+    <table class="handles-table">
+      <thead><tr><th>Patient does this</th><th>eight.ai does this</th></tr></thead>
+      <tbody>
+        <tr><td>📅 Asks for an available slot</td><td>Checks your schedule, offers real available times</td></tr>
+        <tr><td>🔄 Wants to reschedule</td><td>Handles the change, updates the appointment, notifies staff</td></tr>
+        <tr><td>💰 Asks about price</td><td>Answers instantly from your knowledge base</td></tr>
+        <tr><td>🤔 Inquires but doesn't book</td><td>Auto-flagged in follow-up queue, AI drafts re-engagement message</td></tr>
+        <tr><td>👻 Hasn't visited in 6 weeks</td><td>Lapsed patient detected, personalised recovery message drafted for approval</td></tr>
+        <tr><td>😤 Complains or asks clinical questions</td><td>AI steps aside immediately, escalates to staff with full context</td></tr>
+        <tr><td>🈳 Messages in Mandarin</td><td>AI replies in Mandarin without you doing anything</td></tr>
+        <tr><td>🌙 Messages at 2am</td><td>Draft ready when you wake up — or sent instantly if you're on Full Auto</td></tr>
+      </tbody>
+    </table>
+    <p class="closing-line">Everything above happens automatically. You only get involved when it matters.</p>
+  </section>
+</div>
+
+<!-- TRUST -->
+<div class="wrap">
+  <section id="trust" class="fade-in">
+    <div class="section-label">Trust & credibility</div>
+    <h2>Built for clinics that take patient trust seriously</h2>
+    <p class="section-sub">Early-stage, built right. Here's why clinics trust eight.ai with their patient conversations.</p>
+    <div class="trust-nums">
+      <div class="stat-card"><div class="big-num">2,400+</div><div class="stat-desc">Messages handled</div></div>
+      <div class="stat-card"><div class="big-num">18</div><div class="stat-desc">Clinics onboarded</div></div>
+      <div class="stat-card"><div class="big-num">87%</div><div class="stat-desc">Faster response time</div></div>
+      <div class="stat-card"><div class="big-num">4.9 ★</div><div class="stat-desc">Average clinic rating</div></div>
+    </div>
+    <div class="quote-card">
+      <div class="quote-mark">"</div>
+      <div class="quote-text">Before eight.ai, my staff were glued to WhatsApp all day. Now they actually focus on patients in the room. The AI drafts are so good that I approve 90% of them without even editing.</div>
+      <div class="quote-author"><strong>Dr. Amirah Zainal</strong><span>Klinik Cahaya, Puchong · Aesthetic & Wellness</span></div>
+    </div>
+    <div class="trust-row">
+      <div class="trust-item"><div class="trust-icon">📱</div><p>Built on <strong>Meta's official WhatsApp Business API</strong> — the same infrastructure used by banks and airlines.</p></div>
+      <div class="trust-item"><div class="trust-icon">🔒</div><p>Your number stays yours. <strong>Patient data is fully isolated.</strong> No data shared between clinics. Ever.</p></div>
+      <div class="trust-item"><div class="trust-icon">🇲🇾</div><p><strong>PDPA compliant.</strong> Data stored in Malaysia. Built for the Malaysian healthcare context.</p></div>
+    </div>
+    <div class="manglish-tag">✨ eight.ai speaks Manglish natively. Your patients won't know the difference.</div>
+  </section>
+</div>
+
+<!-- PRICING -->
+<div class="wrap">
+  <section id="pricing" class="fade-in">
+    <div class="section-label">Pricing</div>
+    <h2>Simple pricing. No surprises.</h2>
+    <p class="section-sub">All plans include onboarding support and a 14-day free trial. No credit card needed to start.</p>
+    <div class="pricing-grid">
+      <div class="pricing-card featured">
+        <div class="popular-badge">⭐ Most Popular</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-desc">Everything you need to run patient comms on autopilot</div>
+        <div class="plan-price"><span class="currency">RM</span> 599 <span>/ month</span></div>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li><span class="check">✓</span>Approve / reject every reply — always in control</li>
+          <li><span class="check">✓</span>AI replies in Bahasa, Manglish & English</li>
+          <li><span class="check">✓</span>Full knowledge base + AI persona setup</li>
+          <li><span class="check">✓</span>Unlimited contacts</li>
+          <li><span class="check">✓</span>Lapsed patient recovery</li>
+          <li><span class="check">✓</span>Upsell suggestion engine</li>
+          <li><span class="check">✓</span>No-show follow-up</li>
+          <li><span class="check">✓</span>Full analytics (7d / 30d / 90d)</li>
+          <li><span class="check">✓</span>Monthly AI performance report</li>
+          <li><span class="check">✓</span>Priority support</li>
+        </ul>
+        <a href="https://wa.me/60173620195?text=Hi%20EIGHT%20AI%2C%20I%27d%20like%20to%20start%20a%20free%20trial." target="_blank" rel="noopener" class="plan-cta plan-cta-p" style="display:block;text-align:center;text-decoration:none;">Start Free Trial</a>
+      </div>
+      <div class="pricing-card">
+        <div class="plan-name">Enterprise</div>
+        <div class="plan-desc">For clinics that need something built just for them</div>
+        <div class="plan-price" style="font-size:22px;font-weight:700;color:var(--text-primary);">Custom</div>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li class="section-title">Everything in Pro, plus:</li>
+          <li><span class="check">✓</span>Custom feature development</li>
+          <li><span class="check">✓</span>On-site setup & onboarding</li>
+          <li><span class="check">✓</span>Custom AI workflows & automations</li>
+          <li><span class="check">✓</span>Integration with your existing systems</li>
+          <li><span class="check">✓</span>Dedicated account manager</li>
+          <li><span class="check">✓</span>SLA & uptime guarantee</li>
+        </ul>
+        <a href="https://wa.me/60173620195?text=Hi%20EIGHT%20AI%2C%20I%27m%20interested%20in%20Enterprise." target="_blank" rel="noopener" class="plan-cta plan-cta-s" style="display:block;text-align:center;text-decoration:none;">Talk to Us</a>
+      </div>
+    </div>
+    <p class="pricing-footnote">All prices in Malaysian Ringgit (MYR). Cancel anytime. No lock-in contracts.</p>
+  </section>
+</div>
+
+<!-- FINAL CTA -->
+<div class="final-cta" id="demo">
+  <h2>Your clinic never misses a message again.</h2>
+  <p>Join clinics across Malaysia using eight.ai to handle patient WhatsApp — without adding staff.</p>
+  <a href="#" class="btn-final">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    Book a Demo
+  </a>
+  <div class="final-reassurance">Setup takes under 30 minutes · Works with your existing WhatsApp number · Cancel anytime</div>
+</div>
+
+<!-- CONTACT SECTION -->
+<div style="background:#111827; padding: 64px 40px 0;">
+  <div style="max-width:1100px; margin:0 auto;">
+    <div style="text-align:center; margin-bottom:48px;">
+      <div style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:#818CF8;background:rgba(99,102,241,0.12);padding:4px 12px;border-radius:9999px;margin-bottom:16px;">Get in touch</div>
+      <h2 style="font-size:clamp(26px,3vw,38px);font-weight:700;letter-spacing:-0.025em;color:white;margin-bottom:12px;">Feel free to reach out anytime.</h2>
+      <p style="font-size:16px;color:rgba(255,255,255,0.45);max-width:480px;margin:0 auto;line-height:1.65;">Whether you have questions about how it works, want a live demo, or just want to talk — we're here. No hard sell, promise.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:64px;">
+      <a href="tel:+60173620195" style="display:flex;align-items:center;gap:16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:20px 24px;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.09)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">
+        <div style="width:42px;height:42px;border-radius:10px;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.16 6.16l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:rgba(255,255,255,0.35);margin-bottom:3px;">Call / WhatsApp</div>
+          <div style="font-size:15px;font-weight:600;color:white;">+60 17-362 0195</div>
+        </div>
+      </a>
+      <a href="https://wa.me/60173620195?text=Hi%20EIGHT%20AI%2C%20I%27m%20interested%20to%20learn%20more%20about%20your%20WhatsApp%20AI%20for%20clinics." target="_blank" rel="noopener" style="display:flex;align-items:center;gap:16px;background:rgba(37,211,102,0.08);border:1px solid rgba(37,211,102,0.18);border-radius:12px;padding:20px 24px;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(37,211,102,0.14)'" onmouseout="this.style.background='rgba(37,211,102,0.08)'">
+        <div style="width:42px;height:42px;border-radius:10px;background:rgba(37,211,102,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="22" height="22" viewBox="0 0 32 32" fill="none"><path d="M16 2C8.268 2 2 8.268 2 16c0 2.478.677 4.797 1.854 6.787L2 30l7.43-1.82A13.93 13.93 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2z" fill="#25D366"/><path d="M22.003 19.3c-.3-.15-1.77-.873-2.044-.972-.274-.1-.473-.15-.672.15-.2.3-.772.972-.946 1.172-.174.2-.348.224-.647.075-.3-.15-1.266-.467-2.412-1.488-.891-.795-1.493-1.776-1.668-2.076-.174-.3-.018-.462.131-.61.134-.134.3-.348.448-.522.15-.174.2-.3.3-.498.1-.2.05-.374-.025-.523-.075-.15-.672-1.62-.92-2.22-.243-.583-.49-.504-.672-.513l-.573-.01c-.2 0-.523.075-.797.374-.274.3-1.047 1.023-1.047 2.494 0 1.47 1.072 2.893 1.222 3.092.15.2 2.11 3.22 5.113 4.514.714.308 1.272.492 1.707.63.717.228 1.37.196 1.885.118.575-.085 1.77-.723 2.02-1.421.249-.699.249-1.298.174-1.422-.075-.124-.274-.199-.573-.348z" fill="white"/></svg>
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:rgba(37,211,102,0.6);margin-bottom:3px;">WhatsApp</div>
+          <div style="font-size:15px;font-weight:600;color:white;">Chat with us</div>
+        </div>
+      </a>
+      <a href="mailto:hello@witheightai.com?subject=Enquiry%20about%20EIGHT%20AI" style="display:flex;align-items:center;gap:16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:20px 24px;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.09)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">
+        <div style="width:42px;height:42px;border-radius:10px;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:rgba(255,255,255,0.35);margin-bottom:3px;">Email</div>
+          <div style="font-size:15px;font-weight:600;color:white;">hello@witheightai.com</div>
+        </div>
+      </a>
+    </div>
+    <div style="height:1px;background:rgba(255,255,255,0.07);"></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo"><img src="/logo.jpg" alt="EIGHT AI" style="height:36px;width:auto;display:block;border-radius:6px;"></div>
+    <div class="footer-desc">WhatsApp-first AI communication for aesthetic clinics in Malaysia.</div>
+  </div>
+  <div class="footer-links">
+    <a href="/privacy.html">Privacy Policy</a>
+    <a href="/terms.html">Terms of Service</a>
+    <a href="mailto:hello@witheightai.com">Contact</a>
+  </div>
+  <div class="footer-flag">Built in Malaysia 🇲🇾</div>
+</footer>
+
+<!-- FLOATING CONTACT BUTTONS -->
+<div class="float-stack">
+  <a href="tel:+60173620195" class="float-btn float-phone" aria-label="Call us">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.16 6.16l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+    <span class="float-btn-label">+60 17-362 0195</span>
+  </a>
+  <a href="mailto:hello@witheightai.com?subject=Enquiry%20about%20EIGHT%20AI&body=Hi%20EIGHT%20AI%20team%2C%20I%27m%20interested%20to%20learn%20more%20about%20your%20WhatsApp%20AI%20for%20clinics." class="float-btn float-email" aria-label="Email us">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+    <span class="float-btn-label">Email us</span>
+  </a>
+  <a href="https://wa.me/60173620195?text=Hi%20EIGHT%20AI%2C%20I%27m%20interested%20to%20learn%20more%20about%20your%20WhatsApp%20AI%20for%20clinics." target="_blank" rel="noopener" class="float-btn float-wa" aria-label="Chat with us on WhatsApp">
+    <svg width="22" height="22" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M16 2C8.268 2 2 8.268 2 16c0 2.478.677 4.797 1.854 6.787L2 30l7.43-1.82A13.93 13.93 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2z" fill="white"/>
+      <path d="M22.003 19.3c-.3-.15-1.77-.873-2.044-.972-.274-.1-.473-.15-.672.15-.2.3-.772.972-.946 1.172-.174.2-.348.224-.647.075-.3-.15-1.266-.467-2.412-1.488-.891-.795-1.493-1.776-1.668-2.076-.174-.3-.018-.462.131-.61.134-.134.3-.348.448-.522.15-.174.2-.3.3-.498.1-.2.05-.374-.025-.523-.075-.15-.672-1.62-.92-2.22-.243-.583-.49-.504-.672-.513l-.573-.01c-.2 0-.523.075-.797.374-.274.3-1.047 1.023-1.047 2.494 0 1.47 1.072 2.893 1.222 3.092.15.2 2.11 3.22 5.113 4.514.714.308 1.272.492 1.707.63.717.228 1.37.196 1.885.118.575-.085 1.77-.723 2.02-1.421.249-.699.249-1.298.174-1.422-.075-.124-.274-.199-.573-.348z" fill="#25D366"/>
+    </svg>
+    <span class="float-btn-label">Chat with us</span>
+  </a>
+</div>
+
+<style>
+  .float-stack {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+  }
+  .float-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    padding: 12px 18px 12px 14px;
+    border-radius: 50px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    white-space: nowrap;
+  }
+  .float-btn:hover {
+    transform: translateY(-2px) scale(1.03);
+  }
+  .float-wa {
+    background: #25D366;
+    color: white;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.4), 0 2px 8px rgba(0,0,0,0.15);
+    animation: wa-bounce 3s ease-in-out infinite;
+  }
+  .float-wa:hover {
+    box-shadow: 0 8px 28px rgba(37,211,102,0.5), 0 4px 12px rgba(0,0,0,0.15);
+    animation: none;
+  }
+  .float-phone {
+    background: white;
+    color: #1A1A1A;
+    border: 1px solid #E8E8E8;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+  }
+  .float-phone:hover {
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  }
+  .float-email {
+    background: white;
+    color: #1A1A1A;
+    border: 1px solid #E8E8E8;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+  }
+  .float-email:hover {
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  }
+  .float-btn-label { white-space: nowrap; }
+  @keyframes wa-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+  @media (max-width: 480px) {
+    .float-stack { bottom: 20px; right: 20px; }
+    .float-btn { padding: 12px 14px; }
+    .float-btn-label { display: none; }
+  }
+</style>
+
+<script>
+  const SLIDES = ['inbox', 'followup', 'appointments', 'contacts', 'analytics'];
+  let currentSlide = 0;
+
+  function goToSlide(idx) {
+    currentSlide = idx;
+    // slides
+    document.querySelectorAll('.fslide').forEach(s => s.classList.remove('active'));
+    document.getElementById('f-' + SLIDES[idx]).classList.add('active');
+    // tabs
+    document.querySelectorAll('.ftab').forEach((b, i) => b.classList.toggle('active', i === idx));
+    // dots
+    document.querySelectorAll('.cdot').forEach((d, i) => d.classList.toggle('active', i === idx));
+    // arrows
+    document.getElementById('carr-prev').disabled = idx === 0;
+    document.getElementById('carr-next').disabled = idx === SLIDES.length - 1;
+  }
+
+  function stepCarousel(dir) {
+    const next = currentSlide + dir;
+    if (next >= 0 && next < SLIDES.length) goToSlide(next);
+  }
+
+  function showF(id, btn) {
+    const idx = SLIDES.indexOf(id);
+    if (idx !== -1) goToSlide(idx);
+  }
+
+  // Keyboard arrow support
+  document.addEventListener('keydown', e => {
+    const carousel = document.querySelector('.carousel-wrap');
+    if (!carousel) return;
+    const rect = carousel.getBoundingClientRect();
+    const inView = rect.top < window.innerHeight && rect.bottom > 0;
+    if (!inView) return;
+    if (e.key === 'ArrowRight') stepCarousel(1);
+    if (e.key === 'ArrowLeft') stepCarousel(-1);
+  });
+
+  // Fade-in on scroll
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(el => { if (el.isIntersecting) el.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
